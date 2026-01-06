@@ -332,52 +332,6 @@ src="https://www.facebook.com/tr?id=1815853442667629&ev=PageView&noscript=1"
                 </div>
 
                 <form id="paymentForm">
-
-<div class="payment-method" data-payment="pix">
-                        <div class="payment-header">
-                            <div class="payment-radio"></div>
-                            <div class="payment-info">
-                                <h4>PIX</h4>
-                                <p>Aprovação imediata</p>
-                            </div>
-                        </div>
-                        <div class="payment-form">
-                            <div class="pix-container">
-                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
-                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
-                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
-                                    Após finalizar, você receberá o código PIX para pagamento
-                                </div>
-                                
-                                <div id="pixPaymentDetails" style="display: none;">
-                                    <div class="pix-qr-code" id="pixQrCode">
-                                    </div>
-                                    
-                                    <div class="pix-code-container">
-                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
-                                        <div class="pix-code-text" id="pixCodeText">
-                                        </div>
-                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
-                                            Copiar Código
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="pix-instructions">
-                                        <strong>Como pagar:</strong><br>
-                                        1. Abra o app do seu banco<br>
-                                        2. Escolha a opção PIX<br>
-                                        3. Escaneie o QR Code ou cole o código<br>
-                                        4. Confirme o pagamento
-                                    </div>
-                                    
-                                    <div class="pix-timer" id="pixTimer">
-                                        Código válido por: <span id="pixTimeRemaining">15:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  
                     <div class="payment-method" data-payment="credit">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
@@ -444,6 +398,51 @@ src="https://www.facebook.com/tr?id=1815853442667629&ev=PageView&noscript=1"
                                     <option value="12">12x R$ 29,99 com juros</option>
                                 </select>
                                 <div class="error-message" id="installmentsError">Selecione as parcelas</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-method" data-payment="pix">
+                        <div class="payment-header">
+                            <div class="payment-radio"></div>
+                            <div class="payment-info">
+                                <h4>PIX</h4>
+                                <p>Aprovação imediata</p>
+                            </div>
+                        </div>
+                        <div class="payment-form">
+                            <div class="pix-container">
+                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
+                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
+                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
+                                    Após finalizar, você receberá o código PIX para pagamento
+                                </div>
+                                
+                                <div id="pixPaymentDetails" style="display: none;">
+                                    <div class="pix-qr-code" id="pixQrCode">
+                                    </div>
+                                    
+                                    <div class="pix-code-container">
+                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
+                                        <div class="pix-code-text" id="pixCodeText">
+                                        </div>
+                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
+                                            Copiar Código
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="pix-instructions">
+                                        <strong>Como pagar:</strong><br>
+                                        1. Abra o app do seu banco<br>
+                                        2. Escolha a opção PIX<br>
+                                        3. Escaneie o QR Code ou cole o código<br>
+                                        4. Confirme o pagamento
+                                    </div>
+                                    
+                                    <div class="pix-timer" id="pixTimer">
+                                        Código válido por: <span id="pixTimeRemaining">15:00</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
