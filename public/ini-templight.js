@@ -1,6 +1,6 @@
 let currentStep = 1;
         let selectedShipping = 'standard';
-        let selectedPayment = '';
+        let selectedPayment = 'pix';
         let addressFilled = false;
         let pixTimer = null;
         
