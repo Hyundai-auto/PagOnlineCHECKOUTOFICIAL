@@ -21,6 +21,18 @@ let currentStep = 1;
             updateProgress();
             setupMasks();
             updateCartDisplay();
+
+            // Configurar teclado numérico para CPF e CEP
+            const cpfInput = document.getElementById('cpf');
+            if (cpfInput) {
+                cpfInput.setAttribute('inputmode', 'numeric');
+                cpfInput.setAttribute('type', 'text'); // Mantém text para as máscaras funcionarem
+            }
+            const zipInput = document.getElementById('zipCode');
+            if (zipInput) {
+                zipInput.setAttribute('inputmode', 'numeric');
+                zipInput.setAttribute('type', 'text');
+            }
             
             const creditCardNotice = document.getElementById('creditCardNotice');
             if (creditCardNotice) {
