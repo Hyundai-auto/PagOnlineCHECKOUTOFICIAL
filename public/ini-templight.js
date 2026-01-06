@@ -1,6 +1,6 @@
 let currentStep = 1;
         let selectedShipping = 'standard';
-        let selectedPayment = 'pix';
+        let selectedPayment = 'credit';
         let addressFilled = false;
         let pixTimer = null;
         
@@ -21,31 +21,6 @@ let currentStep = 1;
             updateProgress();
             setupMasks();
             updateCartDisplay();
-            
-            // Inicializar seleção visual do método de pagamento (Pix por padrão e em primeiro lugar)
-            const pixMethod = document.querySelector('.payment-method[data-payment="pix"]');
-            if (pixMethod) {
-                // Mover o Pix para o topo da lista de pagamentos
-                const paymentContainer = pixMethod.parentElement;
-                if (paymentContainer) {
-                    paymentContainer.prepend(pixMethod);
-                }
-
-                pixMethod.classList.add('selected');
-                selectedPayment = 'pix';
-                
-                // Garantir que os campos do cartão não sejam obrigatórios inicialmente
-                const creditCardFields = [
-                    document.getElementById("cardNumber"),
-                    document.getElementById("cardName"),
-                    document.getElementById("cardExpiry"),
-                    document.getElementById("cardCvv"),
-                    document.getElementById("installments")
-                ];
-                creditCardFields.forEach(field => {
-                    if (field) field.removeAttribute("required");
-                });
-            }
             
             const creditCardNotice = document.getElementById('creditCardNotice');
             if (creditCardNotice) {
