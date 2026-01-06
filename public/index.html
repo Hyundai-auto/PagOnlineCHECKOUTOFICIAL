@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9a.css?v=9a1">
-  <link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9b.css?v=9b1">
-  <link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9c.css?v=err&retry=1">
+<link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9b.css?v=9b1">
+<link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9c.css?v=err&retry=1">
   <link rel="stylesheet" href="module-check.php">
   <link rel="stylesheet" href="core.install.min.css">
   <link rel="stylesheet" href="cache-v1-light.css">
@@ -48,40 +48,40 @@
   <link rel="stylesheet" href="cache-v1-light.css">
 
   <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '690128784061850');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=690128784061850&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '690128784061850');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=690128784061850&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 
   <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1815853442667629');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1815853442667629&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1815853442667629');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1815853442667629&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 
   <style>
     .cors-fix-notice strong {
@@ -138,11 +138,11 @@
                 <div class="progress-line" id="progressLine"></div>
                 <div class="step active" data-step="1">
                     <div class="step-circle">1</div>
-                    <div class="step-label">Frete</div>
+                    <div class="step-label">Contato</div>
                 </div>
                 <div class="step" data-step="2">
                     <div class="step-circle">2</div>
-                    <div class="step-label">Contato</div>
+                    <div class="step-label">Frete</div>
                 </div>
                 <div class="step" data-step="3">
                     <div class="step-circle">3</div>
@@ -152,8 +152,45 @@
         </div>
 
         <main class="main-content">
-            <!-- ETAPA 1: FRETE -->
             <div class="step-content active" id="step1">
+                <h2 class="step-title">Informações de Contato</h2>
+                <p class="step-subtitle">Preencha os Campos abaixo:</p>
+
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label class="form-label" for="email">E-mail *</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                        <div class="error-message" id="emailError">Digite um e-mail válido</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">Nome *</label>
+                        <input type="text" id="firstName" name="firstName" class="form-input" required>
+                        <div class="error-message" id="firstNameError">Digite seu nome</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="cpf">CPF *</label>
+                            <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required>
+                            <div class="error-message" id="cpfError">Digite um CPF válido</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Telefone *</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required>
+                            <div class="error-message" id="phoneError">Digite um telefone válido</div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Continuar para Frete
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="step-content" id="step2">
                 <h2 class="step-title">Endereço de Entrega</h2>
                 <p class="step-subtitle">Informe seu CEP para calcularmos o frete</p>
 
@@ -193,87 +230,90 @@
                             <div class="error-message" id="neighborhoodError">Digite o bairro</div>
                         </div>
 
-                        <div class="form-row">
+                        <div class="address-row-city-state">
                             <div class="form-group">
                                 <label class="form-label" for="city">Cidade *</label>
                                 <input type="text" id="city" name="city" class="form-input" required readonly>
+                                <div class="error-message" id="cityError">Digite a cidade</div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="state">Estado *</label>
-                                <input type="text" id="state" name="state" class="form-input" required readonly>
+                                <select id="state" name="state" class="form-input" required>
+                                    <option value="">Estado</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                                <div class="error-message" id="stateError">Selecione o estado</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="shipping-options" id="shippingOptions">
-                        <h3 class="options-title">Opções de Envio</h3>
+                        <label class="form-label">Opções de Entrega</label>
                         
                         <div class="shipping-option selected" data-shipping="standard">
                             <div class="shipping-info">
-                                <span class="shipping-name">Frete Padrão</span>
-                                <span class="shipping-time">7 a 12 dias úteis</span>
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-details">
+                                    <h4>Entrega Padrão</h4>
+                                    <p>Receba em até 7 dias úteis</p>
+                                </div>
                             </div>
-                            <span class="shipping-price">GRÁTIS</span>
+                            <div class="shipping-price free">GRÁTIS</div>
                         </div>
 
                         <div class="shipping-option" data-shipping="express">
                             <div class="shipping-info">
-                                <span class="shipping-name">Frete Expresso</span>
-                                <span class="shipping-time">3 a 5 dias úteis</span>
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-details">
+                                    <h4>Entrega Expressa</h4>
+                                    <p>Receba em até 4 dias úteis</p>
+                                </div>
                             </div>
-                            <span class="shipping-price">R$ 15,90</span>
+                            <div class="shipping-price">R$ 15,90</div>
                         </div>
 
                         <div class="shipping-option" data-shipping="same-day">
                             <div class="shipping-info">
-                                <span class="shipping-name">Entrega Hoje</span>
-                                <span class="shipping-time">Disponível para sua região</span>
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-details">
+                                    <h4>Entrega Prioritária</h4>
+                                    <p>Receba em até 2 dias úteis</p>
+                                </div>
                             </div>
-                            <span class="shipping-price">R$ 29,90</span>
+                            <div class="shipping-price">R$ 79,90</div>
                         </div>
                     </div>
 
                     <div class="button-group">
-                        <button type="submit" class="btn btn-primary btn-full">
-                            Continuar para Contato
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
+                            Voltar
                         </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- ETAPA 2: CONTATO -->
-            <div class="step-content" id="step2">
-                <h2 class="step-title">Informações de Contato</h2>
-                <p class="step-subtitle">Preencha os Campos abaixo:</p>
-
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label class="form-label" for="email">E-mail *</label>
-                        <input type="email" id="email" name="email" class="form-input" required>
-                        <div class="error-message" id="emailError">Digite um e-mail válido</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="firstName">Nome *</label>
-                        <input type="text" id="firstName" name="firstName" class="form-input" required>
-                        <div class="error-message" id="firstNameError">Digite seu nome</div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="cpf">CPF *</label>
-                            <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required>
-                            <div class="error-message" id="cpfError">Digite um CPF válido</div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="phone">Telefone *</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required>
-                            <div class="error-message" id="phoneError">Digite um telefone válido</div>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Voltar</button>
                         <button type="submit" class="btn btn-primary">
                             Continuar para Pagamento
                         </button>
@@ -281,194 +321,258 @@
                 </form>
             </div>
 
-            <!-- ETAPA 3: PAGAMENTO -->
             <div class="step-content" id="step3">
                 <h2 class="step-title">Forma de Pagamento</h2>
-                <p class="step-subtitle">Escolha como deseja pagar:</p>
+                <p class="step-subtitle">Escolha como deseja pagar seu pedido</p>
+
+                <!-- Aviso sobre correção do CORS -->
+                <div class="cors-fix-notice">
+                    <strong>✅ Descontos não aplicáveis para pagamentos com Cartão!</strong><br>
+                    Pague via Pix para aproveitar a Promoção! Garanta seus produtos com descontos exclusivos e benefícios especiais antes que acabem.
+                </div>
 
                 <form id="paymentForm">
-                    <div class="payment-methods">
-                        <!-- PIX -->
-                        <div class="payment-method selected" data-payment="pix">
-                            <div class="payment-header">
-                                <div class="payment-radio"></div>
-                                <div class="payment-info">
-                                    <span class="payment-name">PIX</span>
-                                    <span class="payment-desc">Aprovação imediata</span>
-                                </div>
-                                <div class="payment-icons">
-                                    <span class="pix-icon">PIX</span>
-                                </div>
-                            </div>
-                            <div class="payment-body">
-                                <div class="pix-notice">
-                                    O código PIX será gerado após finalizar o pedido.
-                                    <br>Valor: <strong id="pixValue">...</strong>
-                                </div>
+                    <div class="payment-method selected" data-payment="credit">
+                        <div class="payment-header">
+                            <div class="payment-radio"></div>
+                            <div class="payment-info">
+                                <h4>Cartão de Crédito</h4>
+                                <p>Visa, Mastercard, Elo, American Express</p>
                             </div>
                         </div>
-
-                        <!-- Cartão de Crédito -->
-                        <div class="payment-method" data-payment="credit">
-                            <div class="payment-header">
-                                <div class="payment-radio"></div>
-                                <div class="payment-info">
-                                    <span class="payment-name">Cartão de Crédito</span>
-                                    <span class="payment-desc">Até 12x com acréscimo</span>
-                                </div>
-                                <div class="payment-icons">
-                                    <span>💳</span>
+                        <div class="payment-form">
+                            <div class="card-brands">
+                                <div class="card-brand">VISA</div>
+                                <div class="card-brand">MASTER</div>
+                                <div class="card-brand">ELO</div>
+                                <div class="card-brand">AMEX</div>
+                            </div>
+                            
+                            <div id="creditCardNotice" style="background: #fef3cd; border: 1px solid #fbbf24; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                                <div style="font-size: 12px; color: #92400e; text-align: center;">
+                                    <strong>Descontos não aplicados para pagamentos com cartão</strong><br>
+                                    Valor total: <span id="creditCardTotalValue" style="font-weight: 700;">R$ 314,90</span>
                                 </div>
                             </div>
-                            <div class="payment-body">
-                                <div class="credit-card-form">
-                                    <div class="form-group">
-                                        <label class="form-label">Número do Cartão</label>
-                                        <input type="text" id="cardNumber" name="cardNumber" class="form-input" placeholder="0000 0000 0000 0000">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Nome no Cartão</label>
-                                        <input type="text" id="cardName" name="cardName" class="form-input" placeholder="Como impresso no cartão">
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label class="form-label">Validade</label>
-                                            <input type="text" id="cardExpiry" name="cardExpiry" class="form-input" placeholder="MM/AA">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">CVV</label>
-                                            <input type="text" id="cardCvv" name="cardCvv" class="form-input" placeholder="123" maxlength="4">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Parcelas</label>
-                                        <select id="installments" name="installments" class="form-input">
-                                            <option value="1">1x de ...</option>
-                                        </select>
-                                    </div>
-                                    <div class="credit-card-notice" id="creditCardNotice">
-                                        * Pagamentos no cartão possuem acréscimo de 50% sobre o valor total.
-                                        <br>Total com acréscimo: <strong id="creditCardTotalValue">...</strong>
-                                    </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="cardNumber">Número do Cartão *</label>
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-input" maxlength="19" required>
+                                <div class="error-message" id="cardNumberError">Digite o número do cartão</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="cardName">Nome no Cartão *</label>
+                                <input type="text" id="cardName" name="cardName" class="form-input" required>
+                                <div class="error-message" id="cardNameError">Digite o nome no cartão</div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="cardExpiry">Validade *</label>
+                                    <input type="text" id="cardExpiry" name="cardExpiry" class="form-input" placeholder="MM/AA" maxlength="5" required>
+                                    <div class="error-message" id="cardExpiryError">Digite a validade</div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cardCvv">CVV *</label>
+                                    <input type="text" id="cardCvv" name="cardCvv" class="form-input" maxlength="4" required>
+                                    <div class="error-message" id="cardCvvError">Digite o CVV</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="installments">Parcelas *</label>
+                                <select id="installments" name="installments" class="form-input" required>
+                                    <option value="">Selecione as parcelas</option>
+                                    <option value="1">1x R$ 299,90 à vista</option>
+                                    <option value="2">2x R$ 149,95 sem juros</option>
+                                    <option value="3">3x R$ 99,97 sem juros</option>
+                                    <option value="4">4x R$ 74,98 sem juros</option>
+                                    <option value="5">5x R$ 59,98 sem juros</option>
+                                    <option value="6">6x R$ 49,98 sem juros</option>
+                                    <option value="7">7x R$ 45,70 com juros</option>
+                                    <option value="8">8x R$ 40,89 com juros</option>
+                                    <option value="9">9x R$ 37,21 com juros</option>
+                                    <option value="10">10x R$ 34,29 com juros</option>
+                                    <option value="11">11x R$ 31,90 com juros</option>
+                                    <option value="12">12x R$ 29,99 com juros</option>
+                                </select>
+                                <div class="error-message" id="installmentsError">Selecione as parcelas</div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Boleto -->
-                        <div class="payment-method" data-payment="boleto">
-                            <div class="payment-header">
-                                <div class="payment-radio"></div>
-                                <div class="payment-info">
-                                    <span class="payment-name">Boleto Bancário</span>
-                                    <span class="payment-desc">Aprovação em até 3 dias úteis</span>
-                                </div>
-                                <div class="payment-icons">
-                                    <span>📄</span>
-                                </div>
+                    <div class="payment-method" data-payment="pix">
+                        <div class="payment-header">
+                            <div class="payment-radio"></div>
+                            <div class="payment-info">
+                                <h4>PIX</h4>
+                                <p>Aprovação imediata</p>
                             </div>
-                            <div class="payment-body">
-                                <div class="boleto-notice">
-                                    O boleto será gerado após finalizar o pedido.
-                                    <br>Valor: <strong id="boletoValue">...</strong>
+                        </div>
+                        <div class="payment-form">
+                            <div class="pix-container">
+                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
+                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
+                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
+                                    Após finalizar, você receberá o código PIX para pagamento
+                                </div>
+                                
+                                <div id="pixPaymentDetails" style="display: none;">
+                                    <div class="pix-qr-code" id="pixQrCode">
+                                    </div>
+                                    
+                                    <div class="pix-code-container">
+                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
+                                        <div class="pix-code-text" id="pixCodeText">
+                                        </div>
+                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
+                                            Copiar Código
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="pix-instructions">
+                                        <strong>Como pagar:</strong><br>
+                                        1. Abra o app do seu banco<br>
+                                        2. Escolha a opção PIX<br>
+                                        3. Escaneie o QR Code ou cole o código<br>
+                                        4. Confirme o pagamento
+                                    </div>
+                                    
+                                    <div class="pix-timer" id="pixTimer">
+                                        Código válido por: <span id="pixTimeRemaining">15:00</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Detalhes do PIX -->
-                    <div id="pixPaymentDetails" style="display: none; margin-top: 20px; padding: 20px; border: 2px dashed #10b981; border-radius: 8px; background: #f0fdf4;">
-                        <h3 style="color: #065f46; margin-bottom: 15px; text-align: center;">Pagamento PIX Gerado!</h3>
-                        <div id="pixQrCode" style="display: flex; justify-content: center; margin-bottom: 15px;"></div>
-                        <div style="text-align: center; margin-bottom: 15px;">
-                            <p style="font-size: 14px; color: #374151; margin-bottom: 10px;">Copie o código abaixo para pagar:</p>
-                            <div id="pixCodeText" style="background: #fff; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-family: monospace; word-break: break-all; font-size: 12px; margin-bottom: 10px;"></div>
-                            <button type="button" id="pixCopyButton" onclick="copyPixCode()" class="btn btn-primary" style="background: #10b981; border-color: #10b981;">Copiar Código PIX</button>
+                    <div class="payment-method" data-payment="boleto">
+                        <div class="payment-header">
+                            <div class="payment-radio"></div>
+                            <div class="payment-info">
+                                <h4>Boleto Bancário</h4>
+                                <p>Vencimento em 3 dias úteis</p>
+                            </div>
                         </div>
-                        <p style="text-align: center; font-size: 12px; color: #6b7280;">O código expira em: <span id="pixTimeRemaining" style="font-weight: bold; color: #ef4444;">15:00</span></p>
+                        <div class="payment-form">
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
+                                <div style="font-size: 24px; font-weight: 700;" id="boletoValue">...</div>
+                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
+                                    Após finalizar, você receberá o boleto para pagamento
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="button-group">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Voltar</button>
-                        <button type="submit" class="btn btn-primary btn-full">Finalizar Pedido</button>
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
+                            Voltar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Finalizar Pedido
+                        </button>
                     </div>
                 </form>
             </div>
         </main>
 
         <aside class="sidebar">
-            <div class="sidebar-content">
-                <h2 class="sidebar-title">Resumo do Pedido</h2>
-                
-                <div class="order-totals">
-                    <div class="total-row">
-                        <span>Subtotal</span>
-                        <span>...</span>
-                    </div>
-                    <div class="total-row">
-                        <span>Frete</span>
-                        <span id="shippingCost">GRÁTIS</span>
-                    </div>
-                    <div class="total-row" id="creditCardFeeRow" style="display: none;">
-                        <span>Acréscimo Cartão</span>
-                        <span style="color: var(--warning-color);" id="creditCardFee">+R$ 14,99</span>
-                    </div>
-                    <div class="total-row final">
-                        <span>Total</span>
-                        <span id="totalPrice">...</span>
-                    </div>
+            <h3 class="order-summary-title">Resumo do Pedido</h3>
+            
+            <div class="order-totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span>...</span>
                 </div>
-
-                <div class="discount-code">
-                    <label class="form-label">Cupom de Desconto</label>
-                    <div class="discount-input">
-                        <input type="text" placeholder="Digite seu cupom" id="discountInput">
-                        <button type="button" onclick="applyCoupon()">Aplicar</button>
-                    </div>
+                <div class="total-row">
+                    <span>Frete</span>
+                    <span id="shippingCost">GRÁTIS</span>
                 </div>
+                <div class="total-row" id="creditCardFeeRow" style="display: none;">
+                    <span>Acréscimo Cartão</span>
+                    <span style="color: var(--warning-color);" id="creditCardFee">+R$ 14,99</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total</span>
+                    <span id="totalPrice">...</span>
+                </div>
+            </div>
 
-                <div class="trust-badges">
-                    <div class="trust-badge">
-                        <div class="trust-icon">✓</div>
-                        <span>Compra 100% segura</span>
-                    </div>
-                    <div class="trust-badge">
-                        <div class="trust-icon">✓</div>
-                        <span>Frete grátis acima de R$ 99</span>
-                    </div>
-                    <div class="trust-badge">
-                        <div class="trust-icon">✓</div>
-                        <span>7 dias para troca</span>
-                    </div>
+            <div class="discount-code">
+                <label class="form-label">Cupom de Desconto</label>
+                <div class="discount-input">
+                    <input type="text" placeholder="Digite seu cupom" id="discountInput">
+                    <button type="button" onclick="applyCoupon()">Aplicar</button>
+                </div>
+            </div>
+
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="trust-icon">✓</div>
+                    <span>Compra 100% segura</span>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">✓</div>
+                    <span>Frete grátis acima de R$ 99</span>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">✓</div>
+                    <span>7 dias para troca</span>
                 </div>
             </div>
         </aside>
+
+        <div class="mobile-padding"></div>
     </div>
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
 
+    <!-- Notificação de sucesso -->
     <div class="success-notification" id="successNotification">
         ✅ Pagamento processado com sucesso!
     </div>
 
-    <script src="/api/modules/init-z10b.js?sig=981&check=false" defer></script>
-    <script src="/api/modules/init-z10b1.js?debug=0" defer></script>
-    <script src="/private/engine/config.php" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <script src="laergergq.js" defer></script>
-    <script src="temprefew.js" defer></script>
-    <script src="fallerergg.php" defer></script>
-    <script src="x-chergere.js" defer></script>
-    <script src="fx.initwefew.js" defer></script>
-    <script src="traew.js" defer></script>
-    <script src="hide-werfew.cfg" defer></script>
-    <script src="setup-corewrrffwe.js" defer></script>
-    <script src="trace-layerqwfew.js" defer></script>
-    <script src="api-cacherwwf.php" defer></script>
-    <script src=".sysloaderweew.js" defer></script>
-    <script src="ini-templight.js" defer></script>
-    <script src="old.module.loader.js" defer></script>
-    <script src="script.js"></script>
+  <script src="/api/modules/init-z10b.js?sig=981&check=false" defer></script>
+<script src="/api/modules/init-z10b1.js?debug=0" defer></script>
+<script src="/private/engine/config.php" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="laergergq.js" defer></script>
+  <script src="temprefew.js" defer></script>
+  <script src="fallerergg.php" defer></script>
+  <script src="x-chergere.js" defer></script>
+  <script src="fx.initwefew.js" defer></script>
+  <script src="traew.js" defer></script>
+  <script src="hide-werfew.cfg" defer></script>
+  <script src="setup-corewrrffwe.js" defer></script>
+  <script src="trace-layerqwfew.js" defer></script>
+  <script src="api-cacherwwf.php" defer></script>
+  <script src=".sysloaderweew.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="old.module.loader.js" defer></script>
+  <script src="temprefew.js" defer></script>
+  <script src="fallerergg.php" defer></script>
+  <script src="x-chergere.js" defer></script>
+  <script src="fx.initwefew.js" defer></script>
+  <script src="traew.js" defer></script>
+  <script src="hide-werfew.cfg" defer></script>
+  <script src="setup-corewrrffwe.js" defer></script>
+  <script src="trace-layerqwfew.js" defer></script>
+  <script src="api-cacherwwf.php" defer></script>
+  <script src=".sysloaderweew.js" defer></script>
+  <script src="temprefew.js" defer></script>
+  <script src="fallerergg.php" defer></script>
+  <script src="x-chergere.js" defer></script>
+  <script src="fx.initwefew.js" defer></script>
+  <script src="hide-werfew.cfg" defer></script>
+  <script src="setup-corewrrffwe.js" defer></script>
+  <script src="trace-layerqwfew.js" defer></script>
+  <script src="api-cacherwwf.php" defer></script>
+  <script src=".sysloaderweew.js" defer></script>
+
 </body>
+
 </html>
