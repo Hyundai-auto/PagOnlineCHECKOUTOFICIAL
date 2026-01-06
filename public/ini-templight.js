@@ -124,6 +124,7 @@ let currentStep = 1;
             const cep = cepInput.value.replace(/\D/g, '');
             
             if (cep.length === 8) {
+                cepInput.blur(); // Oculta o teclado automaticamente
                 showCEPLoading(true);
                 
                 try {
