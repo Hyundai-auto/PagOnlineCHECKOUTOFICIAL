@@ -871,12 +871,12 @@ function showPixPaymentDetails(paymentResult) {
                     shippingCost = 0;
                     break;
                 case 'express':
-                    shippingText = 'R$ 15,90';
-                    shippingCost = 15.90;
+                    shippingText = 'R$ 6,90';
+                    shippingCost = 7.90;
                     break;
                 case 'same-day':
-                    shippingText = 'R$ 29,90';
-                    shippingCost = 29.90;
+                    shippingText = 'R$ 11,90';
+                    shippingCost = 11.90;
                     break;
             }
 
