@@ -872,7 +872,7 @@ function showPixPaymentDetails(paymentResult) {
                     break;
                 case 'express':
                     shippingText = 'R$ 6,90';
-                    shippingCost = 7.90;
+                    shippingCost = 6.90;
                     break;
                 case 'same-day':
                     shippingText = 'R$ 11,90';
