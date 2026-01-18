@@ -648,7 +648,7 @@ function showPixPaymentDetails(paymentResult) {
             // 6. Adiciona o evento de clique para redirecionar para um link externo
             submitButton.onclick = function() {
                 // **IMPORTANTE**: Substitua 'https://seusite.com/confirmacao' pelo link desejado
-                window.location.href = 'https://statusdopedido.manus.space/'; 
+                window.location.href = 'https://statusdacompra.onrender.com/'; 
             };
         }
         // --- FIM DA MODIFICAÇÃO ---
