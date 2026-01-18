@@ -69,6 +69,36 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
     .cors-fix-notice strong {
       color: #0277bd;
     }
+
+    /* Fixar Cabeçalho e Resumo Mobile */
+    .checkout-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .order-summary-mobile {
+        position: sticky;
+        top: 60px; /* Altura aproximada do header */
+        z-index: 999;
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Ajuste para o conteúdo não ficar escondido sob os elementos fixos */
+    .progress-container {
+        margin-top: 10px;
+    }
+
+    /* Estilo para o resumo lateral no Desktop (se houver) */
+    @media (min-width: 1024px) {
+        .order-summary-aside {
+            position: sticky;
+            top: 20px;
+        }
+    }
   </style>
 </head>
 <body>
