@@ -703,38 +703,58 @@
 </footer>
 
  <script>
+// Aguarda carregar o DOM
 document.addEventListener('DOMContentLoaded', () => {
-  // Puxar produtos do sessionStorage
-  const produtos = JSON.parse(sessionStorage.getItem('carrinhoProdutos') || '[]');
+  // Pega os produtos do sessionStorage
+  const produtosJSON = sessionStorage.getItem('carrinhoProdutos');
+  if (!produtosJSON) return; // nada para exibir
 
-  if(produtos.length > 0){
-    const container = document.getElementById('produtos-carrinho');
-    produtos.forEach(prod => {
-      const div = document.createElement('div');
-      div.className = 'produto-item';
-      div.innerHTML = `
-        <img src="${prod.image}" alt="${prod.title}" />
-        <div class="produto-info">
-          <span class="produto-title">${prod.title}</span>
-          <span class="produto-quantity">x${prod.quantity}</span>
-          <span class="produto-price">R$ ${prod.price}</span>
+  const produtos = JSON.parse(produtosJSON);
+
+  // Onde vamos renderizar os produtos
+  const resumoContainer = document.querySelector('.order-totals');
+  if (!resumoContainer) return;
+
+  // Limpa conteúdo antigo se houver
+  resumoContainer.innerHTML = '';
+
+  // Cria cada item do carrinho
+  produtos.forEach(item => {
+    const produtoRow = document.createElement('div');
+    produtoRow.classList.add('produto-row');
+    produtoRow.style.display = 'flex';
+    produtoRow.style.justifyContent = 'space-between';
+    produtoRow.style.alignItems = 'center';
+    produtoRow.style.marginBottom = '12px';
+
+    produtoRow.innerHTML = `
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img src="${item.image}" alt="${item.title}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
+        <div>
+          <div style="font-weight:500;">${item.title}</div>
+          <div style="font-size:12px; color:#555;">Qtd: ${item.quantity}</div>
         </div>
-      `;
-      container.appendChild(div);
-    });
-  }
+      </div>
+      <div style="font-weight:600;">R$ ${item.price}</div>
+    `;
+    resumoContainer.appendChild(produtoRow);
+  });
 
-  // Subtotal recebido via URL
-  const params = new URLSearchParams(window.location.search);
-  const subtotal = params.get('subtotal') || '0.00';
-  const subtotalEl = document.getElementById('subtotalDisplay');
-  if(subtotalEl) subtotalEl.textContent = `R$ ${subtotal}`;
+  // Subtotal via URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const subtotal = urlParams.get('subtotal') || '0.00';
 
-  // Também atualizar o totalPrice
-  const totalEl = document.getElementById('totalPrice');
-  if(totalEl) totalEl.textContent = `R$ ${subtotal}`;
+  const subtotalRow = document.createElement('div');
+  subtotalRow.classList.add('total-row');
+  subtotalRow.style.display = 'flex';
+  subtotalRow.style.justifyContent = 'space-between';
+  subtotalRow.style.fontWeight = '600';
+  subtotalRow.style.marginTop = '16px';
+  subtotalRow.innerHTML = `<span>Subtotal</span><span>R$ ${subtotal}</span>`;
+  resumoContainer.appendChild(subtotalRow);
 });
 </script>
+
 
 
 
