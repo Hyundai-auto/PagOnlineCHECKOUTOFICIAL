@@ -51,6 +51,50 @@
     .cors-fix-notice strong {
       color: #0277bd;
     }
+
+   /* Estilos para a lista de produtos no resumo */
+.order-items-list {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.order-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.order-item-info {
+    flex: 1;
+}
+
+.order-item-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    display: block;
+}
+
+.order-item-qty {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.order-item-price {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
   </style>
 </head>
 <body>
@@ -75,6 +119,8 @@
             </div>
             <div class="summary-content" id="summaryContent">
                 <div class="summary-content-inner">
+                 <!-- ADICIONE ESTA LINHA ABAIXO -->
+    <div id="produtos-carrinho" class="order-items-list"></div>
                     <div class="order-totals">
                         <div class="total-row">
                             <span>Subtotal</span>
@@ -671,6 +717,49 @@
         </div>
     </div>
 </footer>
+
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const produtos = JSON.parse(sessionStorage.getItem('carrinhoProdutos') || '[]');
+    const container = document.getElementById('produtos-carrinho');
+
+    if (container && produtos.length > 0) {
+        container.innerHTML = produtos.map(prod => `
+            <div class="order-item">
+                <img src="${prod.image}" alt="${prod.title}">
+                <div class="order-item-info">
+                    <span class="order-item-title">${prod.title}</span>
+                    <span class="order-item-qty">Quantidade: ${prod.quantity}</span>
+                </div>
+                <span class="order-item-price">R$ ${prod.price}</span>
+            </div>
+        `).join('');
+    } else if (container) {
+        container.innerHTML = '<p style="font-size: 14px; color: #666;">Nenhum produto no carrinho.</p>';
+    }
+
+    // Atualiza o Subtotal e Total com base na URL
+    const params = new URLSearchParams(window.location.search);
+    const subtotal = params.get('subtotal') || '0,00';
+    
+    // IDs baseados no seu HTML original
+    const elementsToUpdate = [
+        'mobileTotalPrice', 
+        'mobileFinalPrice'
+    ];
+
+    elementsToUpdate.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = `R$ ${subtotal}`;
+    });
+    
+    // Atualiza o texto de subtotal genérico se houver
+    const subtotalRows = document.querySelectorAll('.total-row span:last-child');
+    if (subtotalRows.length > 0 && subtotalRows[0].textContent === '...') {
+        subtotalRows[0].textContent = `R$ ${subtotal}`;
+    }
+});
+</script>
 
 
 <!-- Chamada para o seu script original -->
