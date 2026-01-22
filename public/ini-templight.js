@@ -30,6 +30,9 @@ let currentStep = 1;
             setupMasks();
             updateCartDisplay();
 
+                toggleOrderSummary(); // Isso forçará a abertura assim que a página carregar
+
+
             // Configurar teclado numérico para CPF e CEP
             const cpfInput = document.getElementById('cpf');
             if (cpfInput) {
