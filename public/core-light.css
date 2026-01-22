@@ -57,6 +57,19 @@
             }
         }
 
+/* Garante que o conteúdo apareça quando expandido */
+#summaryContent.expanded {
+    display: block !important;
+    max-height: 1000px !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+}
+
+/* Ajuste opcional para a animação da seta */
+.summary-toggle.expanded .summary-toggle-icon {
+    transform: rotate(180deg);
+}
+
         .checkout-header {
             background: var(--white);
             padding: 20px;
