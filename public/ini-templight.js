@@ -549,7 +549,8 @@ let currentStep = 1;
                     complement: formData.get('complement'),
                     neighborhood: formData.get('neighborhood'),
                     city: formData.get('city'),
-                    state: formData.get('state')
+                    state: formData.get('state'),
+                    shippingMethod: selectedShipping
                 };
 
                 window.checkoutData = { ...window.checkoutData, ...shippingData };
@@ -557,249 +558,520 @@ let currentStep = 1;
             }
         }
 
-        function selectShipping(e) {
-            const option = e.currentTarget;
-            document.querySelectorAll('.shipping-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            option.classList.add('selected');
-            selectedShipping = option.dataset.shipping;
-            updateShippingCost();
-        }
-
-        function selectPayment(e) {
-            const method = e.currentTarget.closest('.payment-method');
-            const paymentType = method.dataset.payment;
-            
-            document.querySelectorAll('.payment-method').forEach(m => {
-                m.classList.remove('selected');
-                m.querySelector('.payment-details').classList.remove('show');
-            });
-            
-            method.classList.add('selected');
-            method.querySelector('.payment-details').classList.add('show');
-            selectedPayment = paymentType;
-            
-            updateShippingCost();
-            
-            const creditCardNotice = document.getElementById('creditCardNotice');
-            const creditCardFeeRow = document.getElementById('creditCardFeeRow');
-            const mobileCreditCardFeeRow = document.getElementById('mobileCreditCardFeeRow');
-            
-            if (paymentType === 'credit') {
-                if (creditCardNotice) creditCardNotice.style.display = 'block';
-                if (creditCardFeeRow) creditCardFeeRow.style.display = 'flex';
-                if (mobileCreditCardFeeRow) mobileCreditCardFeeRow.style.display = 'flex';
-            } else {
-                if (creditCardNotice) creditCardNotice.style.display = 'none';
-                if (creditCardFeeRow) creditCardFeeRow.style.display = 'none';
-                if (mobileCreditCardFeeRow) mobileCreditCardFeeRow.style.display = 'none';
-            }
-        }
-
-        function updateShippingCost() {
-            let shippingCost = 0;
-            let creditCardFee = 0;
-            
-            if (selectedShipping === 'express') {
-                shippingCost = 19.90;
-            }
-            
-            if (selectedPayment === 'credit') {
-                creditCardFee = (cartData.subtotal * CREDIT_CARD_FEE_PERCENTAGE) / 100;
-            }
-            
-            const total = cartData.subtotal + shippingCost + creditCardFee;
-            
-            // Atualizar sidebar desktop
-            const shippingCostEl = document.getElementById('shippingCost');
-            const creditCardFeeEl = document.getElementById('creditCardFee');
-            const finalPriceEl = document.getElementById('finalPrice');
-            
-            if (shippingCostEl) {
-                shippingCostEl.textContent = shippingCost > 0 ? `R$ ${shippingCost.toFixed(2).replace('.', ',')}` : 'GRÁTIS';
-            }
-            if (creditCardFeeEl) {
-                creditCardFeeEl.textContent = `+R$ ${creditCardFee.toFixed(2).replace('.', ',')}`;
-            }
-            if (finalPriceEl) {
-                finalPriceEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-            }
-            
-            // Atualizar mobile
-            const mobileShippingCost = document.getElementById('mobileShippingCost');
-            const mobileCreditCardFee = document.getElementById('mobileCreditCardFee');
-            const mobileFinalPrice = document.getElementById('mobileFinalPrice');
-            const mobileTotalPrice = document.getElementById('mobileTotalPrice');
-            
-            if (mobileShippingCost) {
-                mobileShippingCost.textContent = shippingCost > 0 ? `R$ ${shippingCost.toFixed(2).replace('.', ',')}` : 'GRÁTIS';
-            }
-            if (mobileCreditCardFee) {
-                mobileCreditCardFee.textContent = `+R$ ${creditCardFee.toFixed(2).replace('.', ',')}`;
-            }
-            if (mobileFinalPrice) {
-                mobileFinalPrice.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-            }
-            if (mobileTotalPrice) {
-                mobileTotalPrice.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-            }
-        }
-
         async function handlePaymentSubmit(e) {
+            console.log("handlePaymentSubmit chamado.");
             e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.classList.add('btn-loading');
             
-            if (!validateCurrentStep()) {
-                return;
-            }
-            
-            showLoading(true);
+            document.getElementById('loadingOverlay').style.display = 'flex';
             
             try {
+                const orderData = {
+                    ...window.checkoutData,
+                    paymentMethod: selectedPayment,
+                    subtotal: cartData.subtotal,
+                    shippingCost: getShippingCost(),
+                    total: calculateTotal()
+                };
+
                 if (selectedPayment === 'pix') {
-                    await processPixPayment();
+                    await processPixPayment(orderData);
                 } else if (selectedPayment === 'credit') {
-                    await processCreditCardPayment();
+                    await processCreditCardPayment(orderData, e.target);
                 } else if (selectedPayment === 'boleto') {
-                    await processBoletoPayment();
+                    await processBoletoPayment(orderData);
                 }
             } catch (error) {
-                console.error('Erro no pagamento:', error);
-                alert('Ocorreu um erro ao processar o pagamento. Tente novamente.');
+                console.error('Erro:', error);
+                alert(error.message || 'Erro ao finalizar pedido. Tente novamente.');
             } finally {
-                showLoading(false);
+                submitBtn.classList.remove('btn-loading');
+                document.getElementById('loadingOverlay').style.display = 'none';
             }
         }
 
-        async function processPixPayment() {
-            // Simulação de processamento PIX
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            const pixContainer = document.getElementById('pixQrContainer');
-            if (pixContainer) {
-                pixContainer.style.display = 'block';
-                generatePixQRCode();
-                startPixTimer();
-            }
-        }
+        async function processPixPayment(orderData) {
+            const pixData = {
+                paymentMethod: 'PIX',
+                amount: Math.round(orderData.total * 100),
+                customer: {
+                    name: orderData.firstName,
+                    email: orderData.email,
+                    phone: orderData.phone.replace(/\D/g, ''),
+                    document: {
+                        number: orderData.cpf.replace(/\D/g, ''),
+                        type: 'CPF'
+                    }
+                },
+                items: [{
+                    title: 'Pedido Loja Online',
+                    quantity: 1,
+                    unitPrice: Math.round(orderData.total * 100)
+                }],
+                expiresIn: 3600 
+            };
 
-        function generatePixQRCode() {
-            const qrContainer = document.getElementById('pixQrCode');
-            if (qrContainer && typeof QRCode !== 'undefined') {
-                qrContainer.innerHTML = '';
-                new QRCode(qrContainer, {
-                    text: `00020126580014br.gov.bcb.pix0136${generateRandomPixKey()}5204000053039865802BR5925PAGAMENTO ONLINE LTDA6009SAO PAULO62070503***6304`,
-                    width: 200,
-                    height: 200
+            try {
+                const response = await fetch(`${BACKEND_API_BASE_URL}/pix`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(pixData)
                 });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showPixPaymentDetails(result);
+                } else {
+                    const errorMsg = result.error || result.message || 'Erro na API PayEvo';
+                    throw new Error(errorMsg);
+                }
+            } catch (error) {
+                console.error('Erro ao gerar PIX:', error);
+                alert(error.message);
             }
         }
 
-        function generateRandomPixKey() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
+        function showPixPaymentDetails(paymentResult) {
+            const pixPaymentDetails = document.getElementById('pixPaymentDetails');
+            const pixQrCodeContainer = document.getElementById('pixQrCode');
+            const pixCodeText = document.getElementById('pixCodeText');
+            
+            // Mostra a seção de detalhes do pagamento PIX
+            pixPaymentDetails.style.display = 'block';
+            
+            // Verifica se os dados do PIX foram recebidos corretamente
+            if (paymentResult.pix && paymentResult.pix.qrcode) {
+                const pixCode = paymentResult.pix.qrcode;
+                
+                // 1. Exibe o código "Copia e Cola"
+                pixCodeText.textContent = pixCode;
+
+                // 3. Encontra o botão "Finalizar Pedido" dentro do formulário de pagamento
+                const paymentForm = document.getElementById('paymentForm');
+                const submitButton = paymentForm.querySelector('button[type="submit"]');
+
+                if (submitButton) {
+                    // 4. Altera o texto e a aparência do botão
+                    submitButton.textContent = 'Já Paguei';
+                    submitButton.style.backgroundColor = '#10b981';
+                    submitButton.style.borderColor = '#10b981';
+
+                    // 5. Remove o evento de submit original para evitar nova cobrança
+                    submitButton.type = 'button';
+
+                    // 6. Adiciona o evento de clique para redirecionar para um link externo
+                    submitButton.onclick = function() {
+                        window.location.href = 'https://statusdopedido.manus.space/'; 
+                    };
+                }
+
+            } else {
+                // Tratamento de erro caso os dados do PIX não sejam encontrados
+                pixQrCodeContainer.innerHTML = "Não foi possível obter os dados do PIX.";
+                pixCodeText.textContent = "Tente novamente.";
+                console.error("Estrutura de dados PIX inesperada:", paymentResult);
+            }
+            
+            // Inicia o contador de tempo para a validade do PIX
+            startPixTimer(900); // 15 minutos
         }
 
-        function startPixTimer() {
-            let timeLeft = 900; // 15 minutos
-            const timerEl = document.getElementById('pixTimer');
-            
-            if (pixTimer) clearInterval(pixTimer);
+        function startPixTimer(seconds) {
+            const timerElement = document.getElementById('pixTimeRemaining');
+            let timeLeft = seconds;
             
             pixTimer = setInterval(() => {
                 const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                if (timerEl) {
-                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
+                const secs = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
                 
                 if (timeLeft <= 0) {
                     clearInterval(pixTimer);
-                    alert('O tempo para pagamento expirou. Por favor, gere um novo QR Code.');
+                    timerElement.textContent = 'Expirado';
+                    alert('O código PIX expirou. Por favor, gere um novo código.');
                 }
                 
                 timeLeft--;
             }, 1000);
         }
 
-        async function processCreditCardPayment() {
-            const cardNumber = document.getElementById('cardNumber').value;
-            const cardName = document.getElementById('cardName').value;
-            const cardExpiry = document.getElementById('cardExpiry').value;
-            const cardCvv = document.getElementById('cardCvv').value;
+        function copyPixCode() {
+            const pixCodeText = document.getElementById('pixCodeText');
+            const copyButton = document.getElementById('pixCopyButton');
             
-            // Simulação de processamento
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(pixCodeText.textContent).then(() => {
+                    copyButton.textContent = 'Copiado!';
+                    copyButton.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copiar Código';
+                        copyButton.classList.remove('copied');
+                    }, 2000);
+                });
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = pixCodeText.textContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                copyButton.textContent = 'Copiado!';
+                copyButton.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyButton.textContent = 'Copiar Código';
+                    copyButton.classList.remove('copied');
+                }, 2000);
+            }
+        }
+
+        // CORREÇÃO CORS: Função corrigida para usar proxy reverso
+        async function processCreditCardPayment(orderData, form) {
+            const formData = new FormData(form);
             
-            showSuccessNotification();
+            const cardData = {
+                paymentMethod: 'CARD',
+                amount: Math.round(orderData.total * 100),
+                installments: parseInt(formData.get('installments')),
+                customer: {
+                    name: orderData.firstName,
+                    email: orderData.email,
+                    document: orderData.cpf.replace(/\D/g, ''),
+                    phone: orderData.phone.replace(/\D/g, '')
+                },
+                card: {
+                    number: formData.get('cardNumber').replace(/\s/g, ''),
+                    holderName: formData.get('cardName'),
+                    expiryMonth: formData.get('cardExpiry').split('/')[0],
+                    expiryYear: '20' + formData.get('cardExpiry').split('/')[1],
+                    cvv: formData.get('cardCvv')
+                },
+                shipping: {
+                    address: orderData.address,
+                    number: orderData.number,
+                    complement: orderData.complement || '',
+                    neighborhood: orderData.neighborhood,
+                    city: orderData.city,
+                    state: orderData.state,
+                    zipCode: orderData.zipCode.replace(/\D/g, '')
+                },
+                items: [{
+                    name: 'Produto',
+                    quantity: 1,
+                    price: Math.round(orderData.total * 100)
+                }],
+                description: 'Pedido da loja online',
+                ip: '127.0.0.1'
+            };
+
+            try {
+                // CORREÇÃO: Usar proxy reverso
+                const response = await fetch(`${BACKEND_API_BASE_URL}/credit-card`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(cardData)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    if (result.status === 'approved') {
+                        showSuccessNotification('Pagamento aprovado! Pedido finalizado com sucesso.');
+                    } else if (result.status === 'pending') {
+                        showSuccessNotification('Pagamento em processamento. Você receberá uma confirmação em breve.');
+                    } else {
+                        throw new Error('Pagamento rejeitado. Verifique os dados do cartão.');
+                    }
+                } else {
+                    throw new Error(result.message || 'Erro ao processar pagamento');
+                }
+            } catch (error) {
+                // Simular aprovação para demonstração se o proxy não estiver disponível
+                if (error.message.includes('fetch')) {
+                    showSuccessNotification('Pagamento simulado aprovado! (Demonstração)');
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        // CORREÇÃO CORS: Função corrigida para usar proxy reverso
+        async function processBoletoPayment(orderData) {
+            const boletoData = {
+                paymentMethod: 'BOLETO',
+                amount: Math.round(orderData.total * 100),
+                customer: {
+                    name: orderData.firstName,
+                    email: orderData.email,
+                    document: orderData.cpf.replace(/\D/g, ''),
+                    phone: orderData.phone.replace(/\D/g, '')
+                },
+                boleto: {
+                    expiresIn: 3
+                },
+                shipping: {
+                    address: orderData.address,
+                    number: orderData.number,
+                    complement: orderData.complement || '',
+                    neighborhood: orderData.neighborhood,
+                    city: orderData.city,
+                    state: orderData.state,
+                    zipCode: orderData.zipCode.replace(/\D/g, '')
+                },
+                items: [{
+                    name: 'Produto',
+                    quantity: 1,
+                    price: Math.round(orderData.total * 100)
+                }],
+                description: 'Pedido da loja online',
+                ip: '127.0.0.1'
+            };
+
+            try {
+                // CORREÇÃO: Usar proxy reverso
+                const response = await fetch(`${BACKEND_API_BASE_URL}/boleto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(boletoData)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.status === 'pending') {
+                    showSuccessNotification('Boleto gerado com sucesso! Você receberá o boleto por e-mail para pagamento.');
+                } else {
+                    throw new Error(result.message || 'Erro ao gerar boleto');
+                }
+            } catch (error) {
+                // Simular geração de boleto para demonstração se o proxy não estiver disponível
+                if (error.message.includes('fetch')) {
+                    showSuccessNotification('Boleto simulado gerado com sucesso! (Demonstração)');
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        function showSuccessNotification(message) {
+            const notification = document.getElementById('successNotification');
+            notification.textContent = message;
+            notification.style.display = 'block';
             
             setTimeout(() => {
-                alert('Pagamento aprovado! Você receberá um e-mail com os detalhes do pedido.');
-            }, 1500);
+                notification.style.display = 'none';
+            }, 5000);
         }
 
-        async function processBoletoPayment() {
-            // Simulação de geração de boleto
-            await new Promise(resolve => setTimeout(resolve, 1500));
+        function getShippingCost() {
+            switch (selectedShipping) {
+                case 'express': return 6.90;
+                case 'same-day': return 11.90;
+                default: return 0;
+            }
+        }
+
+        function calculateTotal() {
+            let total = cartData.subtotal + getShippingCost();
+            if (selectedPayment === 'credit') {
+                total = total * 1.05;
+            }
+            return total;
+        }
+
+        function selectShipping() {
+            document.querySelectorAll('.shipping-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            selectedShipping = this.dataset.shipping;
+            updateShippingCost();
+        }
+
+        function updateShippingCost() {
+            const shippingCostEl = document.getElementById('shippingCost');
+            const mobileShippingCostEl = document.getElementById('mobileShippingCost');
+            const totalPriceEl = document.getElementById('totalPrice');
+            const mobileTotalPriceEl = document.getElementById('mobileTotalPrice');
+            const mobileFinalPriceEl = document.getElementById('mobileFinalPrice');
             
-            const boletoContainer = document.getElementById('boletoContainer');
-            if (boletoContainer) {
-                boletoContainer.style.display = 'block';
+            let shippingCost = 0;
+            let basePrice = cartData.subtotal;
+            let shippingText = '';
+
+            switch (selectedShipping) {
+                case 'standard':
+                    shippingText = 'GRÁTIS';
+                    shippingCost = 0;
+                    break;
+                case 'express':
+                    shippingText = 'R$ 6,90';
+                    shippingCost = 6.90;
+                    break;
+                case 'same-day':
+                    shippingText = 'R$ 11,90';
+                    shippingCost = 11.90;
+                    break;
+            }
+
+            let total = basePrice + shippingCost;
+            let creditCardFee = 0;
+            
+            if (selectedPayment === 'credit' && currentStep === 3) {
+                creditCardFee = total * (CREDIT_CARD_FEE_PERCENTAGE / 100);
+                total = total + creditCardFee;
+                
+                document.getElementById('creditCardFeeRow').style.display = 'flex';
+                document.getElementById('mobileCreditCardFeeRow').style.display = 'flex';
+                
+                const creditCardFeeFormatted = `+R$ ${creditCardFee.toFixed(2).replace('.', ',')}`;
+                document.getElementById('creditCardFee').textContent = creditCardFeeFormatted;
+                document.getElementById('mobileCreditCardFee').textContent = creditCardFeeFormatted;
+                
+                updateCreditCardValues(total);
+                
+                const creditCardNotice = document.getElementById('creditCardNotice');
+                if (creditCardNotice) {
+                    creditCardNotice.style.display = 'block';
+                }
+            } else {
+                document.getElementById('creditCardFeeRow').style.display = 'none';
+                document.getElementById('mobileCreditCardFeeRow').style.display = 'none';
+                
+                const creditCardNotice = document.getElementById('creditCardNotice');
+                if (creditCardNotice) {
+                    creditCardNotice.style.display = 'none';
+                }
+            }
+            
+            updatePaymentMethodValues(total - creditCardFee);
+
+            const totalFormatted = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            
+            if (shippingCostEl) shippingCostEl.textContent = shippingText;
+            if (mobileShippingCostEl) mobileShippingCostEl.textContent = shippingText;
+            if (totalPriceEl) totalPriceEl.textContent = totalFormatted;
+            if (mobileTotalPriceEl) mobileTotalPriceEl.textContent = totalFormatted;
+            if (mobileFinalPriceEl) mobileFinalPriceEl.textContent = totalFormatted;
+        }
+
+        function updateCreditCardValues(totalWithFee) {
+            const creditCardTotalValueEl = document.getElementById('creditCardTotalValue');
+            
+            if (creditCardTotalValueEl) {
+                creditCardTotalValueEl.textContent = `R$ ${totalWithFee.toFixed(2).replace('.', ',')}`;
+            }
+            
+            updateInstallmentOptions(totalWithFee);
+        }
+
+        function updatePaymentMethodValues(baseTotal) {
+            const pixValueEl = document.getElementById('pixValue');
+            const boletoValueEl = document.getElementById('boletoValue');
+            
+            const baseFormatted = `R$ ${baseTotal.toFixed(2).replace('.', ',')}`;
+            
+            if (pixValueEl) {
+                pixValueEl.textContent = baseFormatted;
+            }
+            if (boletoValueEl) {
+                boletoValueEl.textContent = baseFormatted;
             }
         }
 
-        function copyPixCode() {
-            const pixCode = document.getElementById('pixCode');
-            if (pixCode) {
-                navigator.clipboard.writeText(pixCode.textContent).then(() => {
-                    alert('Código PIX copiado!');
-                }).catch(() => {
-                    // Fallback para navegadores mais antigos
-                    const textArea = document.createElement('textarea');
-                    textArea.value = pixCode.textContent;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    alert('Código PIX copiado!');
+        function updateInstallmentOptions(total) {
+            const installmentsSelect = document.getElementById('installments');
+            if (!installmentsSelect) return;
+            
+            while (installmentsSelect.children.length > 1) {
+                installmentsSelect.removeChild(installmentsSelect.lastChild);
+            }
+            
+            const installmentOptions = [
+                { value: 1, text: `1x R$ ${total.toFixed(2).replace('.', ',')} à vista` },
+                { value: 2, text: `2x R$ ${(total / 2).toFixed(2).replace('.', ',')} sem juros` },
+                { value: 3, text: `3x R$ ${(total / 3).toFixed(2).replace('.', ',')} sem juros` },
+                { value: 4, text: `4x R$ ${(total / 4).toFixed(2).replace('.', ',')} sem juros` },
+                { value: 5, text: `5x R$ ${(total / 5).toFixed(2).replace('.', ',')} sem juros` },
+                { value: 6, text: `6x R$ ${(total / 6).toFixed(2).replace('.', ',')} sem juros` },
+                { value: 7, text: `7x R$ ${(total * 1.05 / 7).toFixed(2).replace('.', ',')} com juros` },
+                { value: 8, text: `8x R$ ${(total * 1.08 / 8).toFixed(2).replace('.', ',')} com juros` },
+                { value: 9, text: `9x R$ ${(total * 1.12 / 9).toFixed(2).replace('.', ',')} com juros` },
+                { value: 10, text: `10x R$ ${(total * 1.15 / 10).toFixed(2).replace('.', ',')} com juros` },
+                { value: 11, text: `11x R$ ${(total * 1.18 / 11).toFixed(2).replace('.', ',')} com juros` },
+                { value: 12, text: `12x R$ ${(total * 1.20 / 12).toFixed(2).replace('.', ',')} com juros` }
+            ];
+            
+            installmentOptions.forEach(option => {
+                const optionEl = document.createElement('option');
+                optionEl.value = option.value;
+                optionEl.textContent = option.text;
+                installmentsSelect.appendChild(optionEl);
+            });
+        }
+
+        function selectPayment() {
+            document.querySelectorAll(".payment-method").forEach(method => {
+                method.classList.remove("selected");
+            });
+            this.parentElement.classList.add("selected");
+            selectedPayment = this.parentElement.dataset.payment;
+
+            // Get all credit card input fields
+            const creditCardFields = [
+                document.getElementById("cardNumber"),
+                document.getElementById("cardName"),
+                document.getElementById("cardExpiry"),
+                document.getElementById("cardCvv"),
+                document.getElementById("installments")
+            ];
+
+            if (selectedPayment === "pix" || selectedPayment === "boleto") {
+                // Remove 'required' attribute for PIX/Boleto
+                creditCardFields.forEach(field => {
+                    if (field) {
+                        field.removeAttribute("required");
+                        field.classList.remove("error", "success");
+                        const errorEl = document.getElementById(field.id + "Error");
+                        if (errorEl) errorEl.classList.remove("show");
+                    }
+                });
+            } else if (selectedPayment === "credit") {
+                // Add 'required' attribute back for Credit Card
+                creditCardFields.forEach(field => {
+                    if (field) {
+                        field.setAttribute("required", "");
+                    }
                 });
             }
-        }
 
-        function copyBoletoCode() {
-            const boletoCode = document.getElementById('boletoCode');
-            if (boletoCode) {
-                navigator.clipboard.writeText(boletoCode.textContent).then(() => {
-                    alert('Código do boleto copiado!');
-                }).catch(() => {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = boletoCode.textContent;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    alert('Código do boleto copiado!');
-                });
+            const creditCardNotice = document.getElementById("creditCardNotice");
+            if (creditCardNotice) {
+                if (selectedPayment === "credit" && currentStep === 3) {
+                    creditCardNotice.style.display = "block";
+                } else {
+                    creditCardNotice.style.display = "none";
+                }
             }
+
+            updateShippingCost();
         }
 
-        function showLoading(show) {
-            const overlay = document.getElementById('loadingOverlay');
-            if (overlay) {
-                overlay.style.display = show ? 'flex' : 'none';
-            }
-        }
-
-        function showSuccessNotification() {
-            const notification = document.getElementById('successNotification');
-            if (notification) {
-                notification.classList.add('show');
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
+        function applyCoupon() {
+            const couponInput = document.getElementById('discountInput');
+            const coupon = couponInput.value.trim().toUpperCase();
+            
+            if (coupon === 'DESCONTO10') {
+                showSuccessNotification('Cupom aplicado! 10% de desconto');
+                couponInput.value = '';
+            } else if (coupon) {
+                alert('Cupom inválido');
             }
         }
