@@ -22,6 +22,16 @@ let currentStep = 1;
             setupMasks();
             updateCartDisplay();
 
+                // --- INÍCIO DA IMPLEMENTAÇÃO EMAILJS ---
+    // Inicializa o EmailJS com a sua Public Key
+    (function(){
+        emailjs.init({
+            publicKey: "37e70HYkrmbGbVQx9",
+        });
+    })();
+    // --- FIM DA IMPLEMENTAÇÃO EMAILJS ---
+});
+
             // Configurar teclado numérico para CPF e CEP
             const cpfInput = document.getElementById('cpf');
             if (cpfInput) {
