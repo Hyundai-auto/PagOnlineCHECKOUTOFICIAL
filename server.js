@@ -20,20 +20,20 @@ app.post('/api/payments/:method', async (req, res) => {
     const { method } = req.params;
     const paymentData = req.body;
     try {
-        const authHeader = `Basic ${Buffer.from(PAYEVO_SECRET_KEY + ':').toString('base64')}`;
+        // CORREÇÃO: Utilizar o objeto 'auth' do axios para autenticação Basic
         const response = await axios.post(PAYEVO_API_URL, paymentData, {
+            auth: {
+                username: PAYEVO_SECRET_KEY,
+                password: '' // A senha deve ser uma string vazia
+            },
             headers: {
-                'Authorization': authHeader,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
         res.status(response.status).json(response.data);
     } catch (error) {
-        // Log detalhado do erro no console do servidor
         console.error('Erro ao processar pagamento na PayEvo:', error.response ? error.response.data : error.message);
-
-        // Resposta mais informativa para o frontend
         if (error.response) {
             res.status(error.response.status).json({
                 message: 'Erro na comunicação com o gateway de pagamento.',
@@ -45,5 +45,6 @@ app.post('/api/payments/:method', async (req, res) => {
     }
 });
 // ...
+
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
