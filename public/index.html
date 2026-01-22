@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
@@ -7,72 +7,893 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9a.css?v=9a1">
-<link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9b.css?v=9b1">
-<link rel="stylesheet" href="/cdn/cache/_sys/render_v47/core-x9c.css?v=err&retry=1">
-  <link rel="stylesheet" href="module-check.php">
-  <link rel="stylesheet" href="core.install.min.css">
-  <link rel="stylesheet" href="cache-v1-light.css">
-  <link rel="stylesheet" href="sys.module.min.backup.css">
-  <link rel="stylesheet" href="render.layer.init.css">
-  <link rel="stylesheet" href="ui-precheck-override.css">
-  <link rel="stylesheet" href="service.cfg">
-  <link rel="stylesheet" href="legacy.101a.css">
-  <link rel="stylesheet" href="opt.optimize.draft.css">
-  <link rel="stylesheet" href="plugin.asset.php">
-  <link rel="stylesheet" href="null.css">
-  <link rel="stylesheet" href="a1fx-bg-layer.css">
-  <link rel="stylesheet" href="module-check.php">
-  <link rel="stylesheet" href="core.install.min.css">
-  <link rel="stylesheet" href="cache-v1-light.css">
-  <link rel="stylesheet" href="core-light.css">
-  <link rel="stylesheet" href="sys.module.min.backup.css">
-  <link rel="stylesheet" href="render.layer.init.css">
-  <link rel="stylesheet" href="ui-precheck-override.css">
-  <link rel="stylesheet" href="service.cfg">
-  <link rel="stylesheet" href="a1fx-bg-layer.css">
-  <link rel="stylesheet" href="module-check.php">
-  <link rel="stylesheet" href="core.install.min.css">
-  <link rel="stylesheet" href="cache-v1-light.css">
-  <link rel="stylesheet" href="sys.module.min.backup.css">
-  <link rel="stylesheet" href="render.layer.init.css">
-  <link rel="stylesheet" href="ui-precheck-override.css">
-  <link rel="stylesheet" href="service.cfg">
-  <link rel="stylesheet" href="legacy.101a.css">
-  <link rel="stylesheet" href="opt.optimize.draft.css">
-  <link rel="stylesheet" href="plugin.asset.php">
-  <link rel="stylesheet" href="null.css">
-  <link rel="stylesheet" href="a1fx-bg-layer.css">
-  <link rel="stylesheet" href="module-check.php">
-  <link rel="stylesheet" href="core.install.min.css">
-  <link rel="stylesheet" href="cache-v1-light.css">
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1602293164280607');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
   <style>
-    .cors-fix-notice strong {
-      color: #0277bd;
+    :root {
+      --primary-color: #667eea;
+      --primary-dark: #764ba2;
+      --gray-100: #f9f9f9;
+      --gray-200: #f0f0f0;
+      --gray-300: #e5e5e5;
+      --gray-400: #ddd;
+      --gray-500: #999;
+      --gray-600: #666;
+      --gray-700: #333;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #e74c3c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f5f5;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .checkout-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 30px;
+      padding: 30px;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    .checkout-header {
+      grid-column: 1 / -1;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray-600);
+      font-size: 14px;
+      background-color: var(--gray-100);
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--gray-700);
+    }
+
+    .step-subtitle {
+      color: var(--gray-600);
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    /* ===== FORMS ===== */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--gray-700);
+    }
+
+    .form-input,
+    .form-input select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-400);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    .form-input:focus,
+    .form-input select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .error-message {
+      display: none;
+      color: var(--danger-color);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    /* ===== BUTTONS ===== */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--gray-200);
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-300);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* ===== PAYMENT METHODS ===== */
+    .payment-method {
+      border: 2px solid var(--gray-300);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    .payment-method:hover {
+      border-color: var(--primary-color);
+      background-color: var(--gray-100);
+    }
+
+    .payment-method.selected {
+      border-color: var(--primary-color);
+      background-color: rgba(102, 126, 234, 0.05);
+    }
+
+    .payment-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .payment-radio {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gray-400);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-method.selected .payment-radio {
+      border-color: var(--primary-color);
+      background: var(--primary-color);
+    }
+
+    .payment-method.selected .payment-radio::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .payment-info h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--gray-700);
+    }
+
+    .payment-info p {
+      font-size: 13px;
+      color: var(--gray-600);
+    }
+
+    .payment-form {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--gray-300);
+    }
+
+    /* ===== SHIPPING OPTIONS ===== */
+    .shipping-option {
+      border: 2px solid var(--gray-300);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    .shipping-option:hover {
+      border-color: var(--primary-color);
+      background-color: var(--gray-100);
+    }
+
+    .shipping-option.selected {
+      border-color: var(--primary-color);
+      background-color: rgba(102, 126, 234, 0.05);
+    }
+
+    .shipping-info {
+      display: flex;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .shipping-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gray-400);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shipping-option.selected .shipping-radio {
+      border-color: var(--primary-color);
+      background: var(--primary-color);
+    }
+
+    .shipping-option.selected .shipping-radio::after {
+      content: '✓';
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .shipping-details h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      color: var(--gray-700);
+    }
+
+    .shipping-details p {
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    .shipping-price {
+      font-weight: 700;
+      color: var(--gray-700);
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .shipping-price.free {
+      color: var(--success-color);
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+      position: sticky;
+      top: 30px;
+    }
+
+    .order-summary-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--gray-700);
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    /* ===== PRODUTOS NO RESUMO ===== */
+    .produtos-resumo-container {
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--gray-300);
+    }
+
+    .produtos-resumo-titulo {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .produtos-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .produtos-lista::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .produtos-lista::-webkit-scrollbar-track {
+      background: var(--gray-200);
+      border-radius: 3px;
+    }
+
+    .produtos-lista::-webkit-scrollbar-thumb {
+      background: var(--gray-400);
+      border-radius: 3px;
+    }
+
+    .produtos-lista::-webkit-scrollbar-thumb:hover {
+      background: var(--gray-500);
+    }
+
+    .produto-resumo-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      background-color: var(--gray-100);
+      border-radius: 8px;
+      border: 1px solid var(--gray-300);
+      transition: all 0.3s ease;
+    }
+
+    .produto-resumo-item:hover {
+      background-color: var(--gray-200);
+      border-color: var(--primary-color);
+    }
+
+    .produto-resumo-foto {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: var(--gray-200);
+      border: 1px solid var(--gray-300);
+    }
+
+    .produto-resumo-foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .foto-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      font-size: 9px;
+      text-align: center;
+      padding: 4px;
+      font-weight: 600;
+    }
+
+    .produto-resumo-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .produto-resumo-nome {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .produto-resumo-detalhes {
+      font-size: 11px;
+      color: var(--gray-600);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .produto-resumo-detalhes .quantidade {
+      background-color: rgba(102, 126, 234, 0.15);
+      color: var(--primary-color);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .produto-resumo-detalhes .preco {
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .produto-resumo-subtotal {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-align: right;
+      min-width: 70px;
+    }
+
+    /* ===== TOTALS ===== */
+    .order-totals {
+      margin-bottom: 20px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-300);
+      font-size: 13px;
+      color: var(--gray-600);
+    }
+
+    .total-row span:last-child {
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .total-row.final {
+      border: none;
+      border-top: 2px solid var(--primary-color);
+      padding-top: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--primary-color);
+    }
+
+    .total-row.final span:last-child {
+      color: var(--primary-color);
+    }
+
+    /* ===== DISCOUNT CODE ===== */
+    .discount-code {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--gray-300);
+    }
+
+    .discount-input {
+      display: flex;
+      gap: 8px;
+    }
+
+    .discount-input input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-400);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .discount-input button {
+      padding: 10px 16px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .discount-input button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ===== TRUST BADGES ===== */
+    .trust-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: var(--gray-100);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    .trust-icon {
+      font-size: 16px;
+      color: var(--success-color);
+      flex-shrink: 0;
+    }
+
+    /* ===== MOBILE SUMMARY ===== */
+    .order-summary-mobile {
+      display: none;
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .summary-toggle {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      border-bottom: 1px solid var(--gray-300);
+    }
+
+    .summary-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .summary-toggle-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .summary-toggle-icon.open {
+      transform: rotate(180deg);
+    }
+
+    .summary-toggle-price {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 16px;
+    }
+
+    .summary-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .summary-content.open {
+      max-height: 500px;
+    }
+
+    .summary-content-inner {
+      padding: 16px;
+    }
+
+    /* ===== PROGRESS ===== */
+    .progress-container {
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 12px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .progress-line {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gray-300);
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--gray-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .step.active .step-circle {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-align: center;
+    }
+
+    .step.active .step-label {
+      color: var(--primary-color);
+    }
+
+    /* ===== LOADING ===== */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 1024px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .main-content {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        padding: 15px;
+        gap: 15px;
+      }
+
+      .checkout-header {
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .order-summary-mobile {
+        display: block;
+      }
+
+      .step-title {
+        font-size: 22px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .progress-steps {
+        flex-wrap: wrap;
+      }
+
+      .step {
+        flex: 0 0 calc(33.333% - 10px);
+      }
+
+      .progress-line {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .checkout-container {
+        padding: 10px;
+      }
+
+      .main-content,
+      .sidebar {
+        padding: 15px;
+      }
+
+      .step-title {
+        font-size: 18px;
+      }
+
+      .form-label {
+        font-size: 13px;
+      }
+
+      .form-input {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      .total-row {
+        font-size: 12px;
+      }
+
+      .total-row.final {
+        font-size: 14px;
+      }
+
+      .produto-resumo-item {
+        gap: 8px;
+        padding: 8px;
+      }
+
+      .produto-resumo-foto {
+        width: 50px;
+        height: 50px;
+      }
+
+      .produto-resumo-nome {
+        font-size: 11px;
+      }
+
+      .produto-resumo-detalhes {
+        font-size: 10px;
+      }
+
+      .produto-resumo-subtotal {
+        font-size: 11px;
+        min-width: 60px;
+      }
     }
   </style>
 </head>
 <body>
     <div class="checkout-container">
+        <!-- HEADER -->
         <header class="checkout-header">
             <div class="header-content">
                 <div class="logo">🛒 PagOnline</div>
@@ -83,38 +904,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
             </div>
         </header>
 
-        <div class="order-summary-mobile">
-            <div class="summary-toggle" onclick="toggleOrderSummary()">
-                <div class="summary-toggle-left">
-                    <span class="summary-toggle-icon">▼</span>
-                    <span class="summary-toggle-text">Exibir resumo do pedido</span>
-                </div>
-                <span class="summary-toggle-price" id="mobileTotalPrice">...</span>
-            </div>
-            <div class="summary-content" id="summaryContent">
-                <div class="summary-content-inner">
-                    <div class="order-totals">
-                        <div class="total-row">
-                            <span>Subtotal</span>
-                            <span>...</span>
-                        </div>
-                        <div class="total-row">
-                            <span>Frete</span>
-                            <span id="mobileShippingCost">GRÁTIS</span>
-                        </div>
-                        <div class="total-row" id="mobileCreditCardFeeRow" style="display: none;">
-                            <span>Acréscimo Cartão</span>
-                            <span style="color: var(--warning-color);" id="mobileCreditCardFee">+R$ 14,99</span>
-                        </div>
-                        <div class="total-row final">
-                            <span>Total</span>
-                            <span id="mobileFinalPrice">...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- PROGRESS -->
         <div class="progress-container">
             <div class="progress-steps">
                 <div class="progress-line" id="progressLine"></div>
@@ -133,10 +923,45 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
             </div>
         </div>
 
+        <!-- MOBILE SUMMARY -->
+        <div class="order-summary-mobile">
+            <div class="summary-toggle" onclick="toggleOrderSummary()">
+                <div class="summary-toggle-left">
+                    <span class="summary-toggle-icon">▼</span>
+                    <span class="summary-toggle-text">Exibir resumo do pedido</span>
+                </div>
+                <span class="summary-toggle-price" id="mobileTotalPrice">R$ 0,00</span>
+            </div>
+            <div class="summary-content" id="summaryContent">
+                <div class="summary-content-inner">
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span id="mobileSubtotal">R$ 0,00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Frete</span>
+                            <span id="mobileShippingCost">GRÁTIS</span>
+                        </div>
+                        <div class="total-row" id="mobileCreditCardFeeRow" style="display: none;">
+                            <span>Acréscimo Cartão</span>
+                            <span style="color: var(--warning-color);" id="mobileCreditCardFee">+R$ 0,00</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>Total</span>
+                            <span id="mobileFinalPrice">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
         <main class="main-content">
+            <!-- STEP 1: CONTACT -->
             <div class="step-content active" id="step1">
                 <h2 class="step-title">Informações de Contato</h2>
-                <p class="step-subtitle">Preencha os Campos abaixo:</p>
+                <p class="step-subtitle">Preencha os campos abaixo:</p>
 
                 <form id="contactForm">
                     <div class="form-group">
@@ -154,12 +979,12 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="cpf">CPF *</label>
-                            <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required>
+                            <input type="text" id="cpf" name="cpf" class="form-input" maxlength="14" required placeholder="000.000.000-00">
                             <div class="error-message" id="cpfError">Digite um CPF válido</div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="phone">Telefone *</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required>
+                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required placeholder="(11) 99999-9999">
                             <div class="error-message" id="phoneError">Digite um telefone válido</div>
                         </div>
                     </div>
@@ -172,7 +997,8 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                 </form>
             </div>
 
-            <div class="step-content" id="step2">
+            <!-- STEP 2: SHIPPING -->
+            <div class="step-content" id="step2" style="display: none;">
                 <h2 class="step-title">Endereço de Entrega</h2>
                 <p class="step-subtitle">Informe seu CEP para calcularmos o frete</p>
 
@@ -180,21 +1006,17 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                     <div class="form-group">
                         <label class="form-label" for="zipCode">CEP *</label>
                         <input type="text" id="zipCode" name="zipCode" class="form-input" maxlength="9" required placeholder="00000-000">
-                        <div class="cep-loading" id="cepLoading">
-                            <div class="cep-spinner"></div>
-                            <span>Buscando endereço...</span>
-                        </div>
                         <div class="error-message" id="zipCodeError">Digite um CEP válido</div>
                     </div>
 
-                    <div class="address-fields" id="addressFields">
+                    <div class="address-fields" id="addressFields" style="display: none;">
                         <div class="form-group">
                             <label class="form-label" for="address">Endereço *</label>
                             <input type="text" id="address" name="address" class="form-input" required readonly>
                             <div class="error-message" id="addressError">Digite o endereço</div>
                         </div>
 
-                        <div class="address-row-number-complement">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="number">Número *</label>
                                 <input type="text" id="number" name="number" class="form-input" required>
@@ -212,7 +1034,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                             <div class="error-message" id="neighborhoodError">Digite o bairro</div>
                         </div>
 
-                        <div class="address-row-city-state">
+                        <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="city">Cidade *</label>
                                 <input type="text" id="city" name="city" class="form-input" required readonly>
@@ -221,7 +1043,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                             <div class="form-group">
                                 <label class="form-label" for="state">Estado *</label>
                                 <select id="state" name="state" class="form-input" required>
-                                    <option value="">Estado</option>
+                                    <option value="">Selecione o estado</option>
                                     <option value="AC">AC</option>
                                     <option value="AL">AL</option>
                                     <option value="AP">AP</option>
@@ -255,7 +1077,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                         </div>
                     </div>
 
-                    <div class="shipping-options" id="shippingOptions">
+                    <div class="shipping-options" id="shippingOptions" style="display: none;">
                         <label class="form-label">Opções de Entrega</label>
                         
                         <div class="shipping-option selected" data-shipping="standard">
@@ -303,18 +1125,14 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                 </form>
             </div>
 
-            <div class="step-content" id="step3">
+            <!-- STEP 3: PAYMENT -->
+            <div class="step-content" id="step3" style="display: none;">
                 <h2 class="step-title">Forma de Pagamento</h2>
                 <p class="step-subtitle">Escolha como deseja pagar seu pedido</p>
 
-                <!-- Aviso sobre correção do CORS -->
-                <div class="cors-fix-notice">
-                    <strong>✅ Aproveite os Descontos via Pix!</strong><br>
-                    Pague via Pix para aproveitar a Promoção! Garanta seus produtos com descontos exclusivos e benefícios especiais antes que acabem.
-                </div>
-
                 <form id="paymentForm">
-                    <div class="payment-method" data-payment="credit">
+                    <!-- CREDIT CARD -->
+                    <div class="payment-method selected" data-payment="credit">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
                             <div class="payment-info">
@@ -323,23 +1141,9 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                             </div>
                         </div>
                         <div class="payment-form">
-                            <div class="card-brands">
-                                <div class="card-brand">VISA</div>
-                                <div class="card-brand">MASTER</div>
-                                <div class="card-brand">ELO</div>
-                                <div class="card-brand">AMEX</div>
-                            </div>
-                            
-                            <div id="creditCardNotice" style="background: #fef3cd; border: 1px solid #fbbf24; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
-                                <div style="font-size: 12px; color: #92400e; text-align: center;">
-                                    <strong>Descontos não aplicados para pagamentos com cartão</strong><br>
-                                    Valor total: <span id="creditCardTotalValue" style="font-weight: 700;">R$ 314,90</span>
-                                </div>
-                            </div>
-                            
                             <div class="form-group">
                                 <label class="form-label" for="cardNumber">Número do Cartão *</label>
-                                <input type="text" id="cardNumber" name="cardNumber" class="form-input" maxlength="19" required>
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-input" maxlength="19" placeholder="0000 0000 0000 0000" required>
                                 <div class="error-message" id="cardNumberError">Digite o número do cartão</div>
                             </div>
 
@@ -357,7 +1161,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="cardCvv">CVV *</label>
-                                    <input type="text" id="cardCvv" name="cardCvv" class="form-input" maxlength="4" required>
+                                    <input type="text" id="cardCvv" name="cardCvv" class="form-input" maxlength="4" placeholder="000" required>
                                     <div class="error-message" id="cardCvvError">Digite o CVV</div>
                                 </div>
                             </div>
@@ -384,51 +1188,27 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                         </div>
                     </div>
 
+                    <!-- PIX -->
                     <div class="payment-method" data-payment="pix">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
                             <div class="payment-info">
                                 <h4>PIX</h4>
-                                <p>Aprovação imediata</p>
+                                <p>Aprovação imediata - 10% de desconto</p>
                             </div>
                         </div>
                         <div class="payment-form">
-                            <div class="pix-container">
-                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
-                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="font-size: 14px; margin-bottom: 8px;">Valor:</div>
+                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">R$ 0,00</div>
                                 <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
                                     Após finalizar, você receberá o código PIX para pagamento
-                                </div>
-                                
-                                <div id="pixPaymentDetails" style="display: none;">
-                                    <div class="pix-qr-code" id="pixQrCode">
-                                    </div>
-                                    
-                                    <div class="pix-code-container">
-                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
-                                        <div class="pix-code-text" id="pixCodeText">
-                                        </div>
-                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
-                                            Copiar Código
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="pix-instructions">
-                                        <strong>Como pagar:</strong><br>
-                                        1. Abra o app do seu banco<br>
-                                        2. Escolha a opção PIX<br>
-                                        3. Escaneie o QR Code ou cole o código<br>
-                                        4. Confirme o pagamento
-                                    </div>
-                                    
-                                    <div class="pix-timer" id="pixTimer">
-                                        Código expira em: <span id="pixTimeRemaining">15:00</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- BOLETO -->
                     <div class="payment-method" data-payment="boleto">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
@@ -439,8 +1219,8 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                         </div>
                         <div class="payment-form">
                             <div style="text-align: center; padding: 20px;">
-                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
-                                <div style="font-size: 24px; font-weight: 700;" id="boletoValue">...</div>
+                                <div style="font-size: 14px; margin-bottom: 8px;">Valor:</div>
+                                <div style="font-size: 24px; font-weight: 700;" id="boletoValue">R$ 0,00</div>
                                 <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
                                     Após finalizar, você receberá o boleto para pagamento
                                 </div>
@@ -460,13 +1240,18 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
             </div>
         </main>
 
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <h3 class="order-summary-title">Resumo do Pedido</h3>
             
+            <!-- PRODUTOS CONTAINER - Será preenchido pelo script -->
+            <div id="produtosResumoContainer"></div>
+            
+            <!-- TOTALS -->
             <div class="order-totals">
                 <div class="total-row">
                     <span>Subtotal</span>
-                    <span>...</span>
+                    <span id="desktopSubtotal">R$ 0,00</span>
                 </div>
                 <div class="total-row">
                     <span>Frete</span>
@@ -474,14 +1259,15 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                 </div>
                 <div class="total-row" id="creditCardFeeRow" style="display: none;">
                     <span>Acréscimo Cartão</span>
-                    <span style="color: var(--warning-color);" id="creditCardFee">+R$ 14,99</span>
+                    <span style="color: var(--warning-color);" id="creditCardFee">+R$ 0,00</span>
                 </div>
                 <div class="total-row final">
                     <span>Total</span>
-                    <span id="totalPrice">...</span>
+                    <span id="totalPrice">R$ 0,00</span>
                 </div>
             </div>
 
+            <!-- DISCOUNT CODE -->
             <div class="discount-code">
                 <label class="form-label">Cupom de Desconto</label>
                 <div class="discount-input">
@@ -490,6 +1276,7 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                 </div>
             </div>
 
+            <!-- TRUST BADGES -->
             <div class="trust-badges">
                 <div class="trust-badge">
                     <div class="trust-icon">✓</div>
@@ -505,235 +1292,262 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
                 </div>
             </div>
         </aside>
-
-        <div class="mobile-padding"></div>
     </div>
 
+    <!-- LOADING OVERLAY -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- Notificação de sucesso -->
-    <div class="success-notification" id="successNotification">
-        ✅ Pagamento processado com sucesso!
-    </div>
+    <!-- SCRIPT DE INTEGRAÇÃO -->
+    <script>
+        /**
+         * SCRIPT COMPLETO DE INTEGRAÇÃO DO CARRINHO
+         * Carrega dados do localStorage e exibe no resumo do pedido
+         */
 
-<!-- 
-  INSTRUÇÕES: 
-  1. Copie TODO o código abaixo.
-  2. Cole no seu arquivo HTML principal, logo ANTES da tag </body>.
-  3. Esta versão utiliza ícones profissionais em PNG com fundo transparente.
--->
+        // ===== INICIALIZAÇÃO =====
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDadosCarrinho();
+            configurarEventos();
+        });
 
-<style>
-    .checkout-footer-new {
-        background: #ffffff !important;
-        border-top: 1px solid #e5e7eb !important;
-        padding: 40px 24px !important;
-        margin-top: 40px !important;
-        width: 100% !important;
-        display: block !important;
-        clear: both !important;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    }
-
-    .footer-content-new {
-        max-width: 1100px !important;
-        margin: 0 auto !important;
-        display: grid !important;
-        grid-template-columns: 1.2fr 0.8fr !important;
-        gap: 60px !important;
-    }
-
-    .footer-section-new {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 20px !important;
-    }
-
-    .footer-title-new {
-        font-size: 13px !important;
-        font-weight: 700 !important;
-        color: #374151 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        margin-bottom: 4px !important;
-    }
-
-    /* Formas de Pagamento */
-    .payment-grid-new {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
-        align-items: center !important;
-    }
-
-    .payment-item-new {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 60px !important;
-        height: 38px !important;
-        background: #ffffff !important;
-        border-radius: 6px !important;
-        border: 1px solid #e5e7eb !important;
-        padding: 4px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
-    }
-
-    .payment-item-new:hover {
-        border-color: #d1d5db !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-    }
-
-    .payment-item-new img {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain !important;
-    }
-
-    /* Selos de Segurança */
-    .security-grid-new {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
-    }
-
-    .security-item-new {
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        padding: 12px 16px !important;
-        background: #f9fafb !important;
-        border-radius: 8px !important;
-        border: 1px solid #e5e7eb !important;
-        flex: 1 !important;
-        min-width: 140px !important;
-    }
-
-    .badge-icon-new {
-        font-size: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    .badge-label-new {
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        color: #4b5563 !important;
-        line-height: 1.3 !important;
-        text-align: left !important;
-    }
-
-    /* Responsividade */
-    @media (max-width: 850px) {
-        .footer-content-new {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
+        // ===== CARREGAR DADOS DO CARRINHO =====
+        function carregarDadosCarrinho() {
+            try {
+                const produtosJSON = localStorage.getItem('carrinho_produtos');
+                const subtotalURL = new URLSearchParams(window.location.search).get('subtotal');
+                
+                if (!produtosJSON) {
+                    console.warn('Nenhum dado de carrinho encontrado');
+                    return;
+                }
+                
+                const produtos = JSON.parse(produtosJSON);
+                exibirProdutosResumo(produtos);
+                atualizarValoresTotal(subtotalURL);
+                
+            } catch (error) {
+                console.error('Erro ao carregar carrinho:', error);
+            }
         }
-        .checkout-footer-new {
-            padding: 32px 20px !important;
+
+        // ===== EXIBIR PRODUTOS NO RESUMO =====
+        function exibirProdutosResumo(produtos) {
+            const container = document.getElementById('produtosResumoContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const titulo = document.createElement('div');
+            titulo.className = 'produtos-resumo-titulo';
+            titulo.textContent = 'Produtos';
+            container.appendChild(titulo);
+            
+            const lista = document.createElement('div');
+            lista.className = 'produtos-lista';
+            
+            produtos.forEach((produto) => {
+                const item = document.createElement('div');
+                item.className = 'produto-resumo-item';
+                
+                const foto = document.createElement('div');
+                foto.className = 'produto-resumo-foto';
+                
+                if (produto.foto && produto.foto.trim() !== '') {
+                    const img = document.createElement('img');
+                    img.src = produto.foto;
+                    img.alt = produto.nome;
+                    img.onerror = function() {
+                        this.parentElement.innerHTML = '<div class="foto-placeholder">Sem imagem</div>';
+                    };
+                    foto.appendChild(img);
+                } else {
+                    foto.innerHTML = '<div class="foto-placeholder">Sem imagem</div>';
+                }
+                
+                const info = document.createElement('div');
+                info.className = 'produto-resumo-info';
+                
+                const nome = document.createElement('div');
+                nome.className = 'produto-resumo-nome';
+                nome.textContent = produto.nome;
+                
+                const detalhes = document.createElement('div');
+                detalhes.className = 'produto-resumo-detalhes';
+                detalhes.innerHTML = `
+                    <span class="quantidade">Qtd: ${produto.quantidade}</span>
+                    <span class="preco">R$ ${parseFloat(produto.valor).toFixed(2).replace('.', ',')}</span>
+                `;
+                
+                info.appendChild(nome);
+                info.appendChild(detalhes);
+                
+                const subtotal = document.createElement('div');
+                subtotal.className = 'produto-resumo-subtotal';
+                subtotal.textContent = `R$ ${parseFloat(produto.subtotal).toFixed(2).replace('.', ',')}`;
+                
+                item.appendChild(foto);
+                item.appendChild(info);
+                item.appendChild(subtotal);
+                
+                lista.appendChild(item);
+            });
+            
+            container.appendChild(lista);
         }
-        .security-item-new {
-            flex: 1 1 40% !important;
+
+        // ===== ATUALIZAR VALORES TOTAIS =====
+        function atualizarValoresTotal(subtotalURL) {
+            try {
+                let subtotal = 0;
+                
+                if (typeof subtotalURL === 'string') {
+                    subtotal = parseFloat(subtotalURL);
+                } else {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const subtotalParam = urlParams.get('subtotal');
+                    subtotal = subtotalParam ? parseFloat(subtotalParam) : 0;
+                }
+                
+                const shippingSelected = document.querySelector('.shipping-option.selected');
+                let frete = 0;
+                
+                if (shippingSelected) {
+                    const freteText = shippingSelected.querySelector('.shipping-price').textContent;
+                    if (freteText !== 'GRÁTIS') {
+                        frete = parseFloat(freteText.replace('R$ ', '').replace(',', '.'));
+                    }
+                }
+                
+                const paymentSelected = document.querySelector('.payment-method.selected');
+                let acrescimoCartao = 0;
+                let desconto = 0;
+                
+                if (paymentSelected) {
+                    const paymentType = paymentSelected.dataset.payment;
+                    
+                    if (paymentType === 'credit') {
+                        acrescimoCartao = subtotal * 0.05;
+                    }
+                    
+                    if (paymentType === 'pix') {
+                        desconto = subtotal * 0.10;
+                    }
+                }
+                
+                const total = subtotal + frete + acrescimoCartao - desconto;
+                
+                // Atualizar desktop
+                document.getElementById('desktopSubtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                document.getElementById('shippingCost').textContent = frete === 0 ? 'GRÁTIS' : `R$ ${frete.toFixed(2).replace('.', ',')}`;
+                document.getElementById('totalPrice').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                
+                // Atualizar mobile
+                document.getElementById('mobileSubtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                document.getElementById('mobileShippingCost').textContent = frete === 0 ? 'GRÁTIS' : `R$ ${frete.toFixed(2).replace('.', ',')}`;
+                document.getElementById('mobileTotalPrice').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                document.getElementById('mobileFinalPrice').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+                
+                // Atualizar acréscimo cartão
+                if (acrescimoCartao > 0) {
+                    document.getElementById('creditCardFeeRow').style.display = 'flex';
+                    document.getElementById('mobileCreditCardFeeRow').style.display = 'flex';
+                    document.getElementById('creditCardFee').textContent = `+R$ ${acrescimoCartao.toFixed(2).replace('.', ',')}`;
+                    document.getElementById('mobileCreditCardFee').textContent = `+R$ ${acrescimoCartao.toFixed(2).replace('.', ',')}`;
+                } else {
+                    document.getElementById('creditCardFeeRow').style.display = 'none';
+                    document.getElementById('mobileCreditCardFeeRow').style.display = 'none';
+                }
+                
+                // Atualizar valores de pagamento
+                document.getElementById('pixValue').textContent = `R$ ${(subtotal - desconto).toFixed(2).replace('.', ',')}`;
+                document.getElementById('boletoValue').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                
+            } catch (error) {
+                console.error('Erro ao atualizar valores:', error);
+            }
         }
-    }
-</style>
 
-<footer class="checkout-footer-new">
-    <div class="footer-content-new">
-        <!-- Pagamento -->
-        <div class="footer-section-new">
-            <div class="footer-title-new">Formas de Pagamento</div>
-            <div class="payment-grid-new">
-                <div class="payment-item-new" title="Visa">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/BidogSGiJZTyHQQx.png" alt="Visa">
-                </div>
-                <div class="payment-item-new" title="Mastercard">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/NhdIHxqWNhrENdwY.png" alt="Mastercard">
-                </div>
-                <div class="payment-item-new" title="Elo">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/jFeykZQutnenIvia.png" alt="Elo">
-                </div>
-                <div class="payment-item-new" title="American Express">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/VmOhEAFGkhqdEeMr.png" alt="Amex">
-                </div>
-                <div class="payment-item-new" title="Hipercard">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/FpILkhLqmVxeJETd.png" alt="Hipercard">
-                </div>
-                <div class="payment-item-new" title="PIX">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/pVHGMfgLspaiUGAQ.png" alt="PIX">
-                </div>
-                <div class="payment-item-new" title="Boleto">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/hyUWloUECflaWzXX.png" alt="Boleto">
-                </div>
-            </div>
-        </div>
+        // ===== CONFIGURAR EVENTOS =====
+        function configurarEventos() {
+            // Métodos de pagamento
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                    atualizarValoresTotal();
+                });
+            });
+            
+            // Opções de frete
+            document.querySelectorAll('.shipping-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.shipping-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    atualizarValoresTotal();
+                });
+            });
+            
+            // Forms
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                goToStep(2);
+            });
+            
+            document.getElementById('shippingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                goToStep(3);
+            });
+            
+            document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                finalizarPedido();
+            });
+        }
 
-        <!-- Segurança -->
-        <div class="footer-section-new">
-            <div class="footer-title-new">Segurança</div>
-            <div class="security-grid-new">
-                <div class="security-item-new">
-                    <div class="badge-icon-new">🔒</div>
-                    <div class="badge-label-new">Ambiente 100%<br>Criptografado</div>
-                </div>
-                <div class="security-item-new">
-                    <div class="badge-icon-new">🛡️</div>
-                    <div class="badge-label-new">Certificado SSL<br>de Segurança</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+        // ===== NAVEGAÇÃO ENTRE STEPS =====
+        function goToStep(step) {
+            document.querySelectorAll('.step-content').forEach(el => el.style.display = 'none');
+            document.getElementById('step' + step).style.display = 'block';
+            
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.querySelector('.step[data-step="' + step + '"]').classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
+        // ===== TOGGLE RESUMO MOBILE =====
+        function toggleOrderSummary() {
+            const content = document.getElementById('summaryContent');
+            const icon = document.querySelector('.summary-toggle-icon');
+            
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
 
-<!-- Chamada para o seu script original -->
-<script src="script.js" defer></script>
+        // ===== APLICAR CUPOM =====
+        function applyCoupon() {
+            const cupom = document.getElementById('discountInput').value;
+            if (cupom) {
+                alert('Cupom "' + cupom + '" aplicado com sucesso!');
+                atualizarValoresTotal();
+            }
+        }
 
-
-  
-  <script src="/api/modules/init-z10b.js?sig=981&check=false" defer></script>
-<script src="/api/modules/init-z10b1.js?debug=0" defer></script>
-<script src="/private/engine/config.php" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="laergergq.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="traew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-  <script src="ini-templight.js" defer></script>
-  <script src="old.module.loader.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="traew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-
+        // ===== FINALIZAR PEDIDO =====
+        function finalizarPedido() {
+            document.getElementById('loadingOverlay').classList.add('show');
+            
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.remove('show');
+                alert('Pedido finalizado com sucesso!');
+                localStorage.removeItem('carrinho_produtos');
+                localStorage.removeItem('carrinho_total_itens');
+                localStorage.removeItem('carrinho_timestamp');
+                window.location.href = '/';
+            }, 2000);
+        }
+    </script>
 </body>
-
 </html>
