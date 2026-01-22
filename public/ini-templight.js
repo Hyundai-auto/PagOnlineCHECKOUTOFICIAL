@@ -22,16 +22,6 @@ let currentStep = 1;
             setupMasks();
             updateCartDisplay();
 
-                // --- INÍCIO DA IMPLEMENTAÇÃO EMAILJS ---
-    // Inicializa o EmailJS com a sua Public Key
-    (function(){
-        emailjs.init({
-            publicKey: "37e70HYkrmbGbVQx9",
-        });
-    })();
-    // --- FIM DA IMPLEMENTAÇÃO EMAILJS ---
-});
-
             // Configurar teclado numérico para CPF e CEP
             const cpfInput = document.getElementById('cpf');
             if (cpfInput) {
@@ -493,24 +483,6 @@ let currentStep = 1;
                     cpf: formData.get('cpf'),
                     phone: formData.get('phone')
                 };
-
-                    // --- INÍCIO DA IMPLEMENTAÇÃO EMAILJS ---
-        const templateParams = {
-            from_name: contactData.firstName,
-            email: contactData.email,
-            cpf: contactData.cpf,
-            phone: contactData.phone,
-            subtotal: `R$ ${cartData.subtotal.toFixed(2).replace(".", ",")}`
-        };
-
-        emailjs.send('service_2nf1guv', 'template_ja4gfaf', templateParams)
-            .then(function(response) {
-               console.log('E-mail de contato enviado com sucesso!', response.status, response.text);
-            }, function(error) {
-               console.log('Falha ao enviar e-mail de contato.', error);
-               // Opcional: você pode adicionar um alerta para o usuário aqui se desejar
-            });
-        // --- FIM DA IMPLEMENTAÇÃO EMAILJS ---
 
                 window.checkoutData = { ...window.checkoutData, ...contactData };
                 goToStep(2);
