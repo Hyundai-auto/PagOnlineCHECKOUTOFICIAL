@@ -1,6 +1,6 @@
 /**
  * Script Robusto para Carregar Produtos no Resumo do Pedido
- * Funciona independentemente da estrutura HTML
+ * Funciona em Desktop e Mobile
  */
 
 (function() {
@@ -33,18 +33,24 @@
 
             console.log('✅ Produtos carregados:', produtos);
 
-            // 2. Encontrar o local correto para inserir os produtos
-            const container = encontrarContainerProdutos();
-            
-            if (!container) {
-                console.error('❌ Não foi possível encontrar o container para produtos');
-                return false;
+            // 2. Injetar CSS
+            injetarCSS();
+
+            // 3. Inserir produtos no DESKTOP (sidebar)
+            const containerDesktop = encontrarContainerDesktop();
+            if (containerDesktop) {
+                criarElementosProdutos(produtos, containerDesktop, 'desktop');
+                console.log('✅ Produtos inseridos no DESKTOP');
             }
 
-            // 3. Criar e inserir elementos dos produtos
-            criarElementosProdutos(produtos, container);
+            // 4. Inserir produtos no MOBILE
+            const containerMobile = encontrarContainerMobile();
+            if (containerMobile) {
+                criarElementosProdutos(produtos, containerMobile, 'mobile');
+                console.log('✅ Produtos inseridos no MOBILE');
+            }
 
-            // 4. Atualizar totais
+            // 5. Atualizar totais
             atualizarTotais(produtos);
 
             console.log('✅ Produtos exibidos com sucesso!');
@@ -56,12 +62,12 @@
         }
     }
 
-    // Função para encontrar o melhor container para os produtos
-    function encontrarContainerProdutos() {
+    // Função para encontrar container no DESKTOP
+    function encontrarContainerDesktop() {
         // Tentar encontrar container existente
-        let container = document.getElementById('productsList');
+        let container = document.getElementById('productsListDesktop');
         if (container) {
-            console.log('✅ Container existente encontrado: #productsList');
+            console.log('✅ Container desktop existente encontrado');
             return container;
         }
 
@@ -73,7 +79,7 @@
             if (titulo) {
                 // Criar container após o título
                 container = document.createElement('div');
-                container.id = 'productsList';
+                container.id = 'productsListDesktop';
                 container.className = 'products-list';
                 titulo.insertAdjacentElement('afterend', container);
                 
@@ -82,45 +88,52 @@
                 divisor.style.cssText = 'border-top: 1px solid #e5e7eb; margin: 16px 0;';
                 container.insertAdjacentElement('afterend', divisor);
                 
-                console.log('✅ Container criado após título da sidebar');
+                console.log('✅ Container desktop criado após título da sidebar');
                 return container;
             }
         }
 
-        // Tentar encontrar order-totals
-        const orderTotals = document.querySelector('.order-totals');
-        if (orderTotals) {
-            container = document.createElement('div');
-            container.id = 'productsList';
-            container.className = 'products-list';
-            orderTotals.insertAdjacentElement('beforebegin', container);
-            
-            // Inserir divisor
-            const divisor = document.createElement('div');
-            divisor.style.cssText = 'border-top: 1px solid #e5e7eb; margin: 16px 0;';
-            container.insertAdjacentElement('afterend', divisor);
-            
-            console.log('✅ Container criado antes de order-totals');
+        return null;
+    }
+
+    // Função para encontrar container no MOBILE
+    function encontrarContainerMobile() {
+        // Tentar encontrar container existente
+        let container = document.getElementById('productsListMobile');
+        if (container) {
+            console.log('✅ Container mobile existente encontrado');
             return container;
         }
 
-        // Última tentativa: criar container genérico
-        container = document.createElement('div');
-        container.id = 'productsList';
-        container.className = 'products-list';
-        document.body.insertAdjacentElement('afterbegin', container);
-        
-        console.log('✅ Container criado no início do body');
-        return container;
+        // Procurar pela estrutura mobile: .order-summary-mobile > .summary-content > .summary-content-inner
+        const summaryContentInner = document.querySelector('.order-summary-mobile .summary-content-inner');
+        if (summaryContentInner) {
+            // Procurar pelos order-totals dentro do mobile
+            const orderTotalsMobile = summaryContentInner.querySelector('.order-totals');
+            if (orderTotalsMobile) {
+                // Criar container antes dos totais
+                container = document.createElement('div');
+                container.id = 'productsListMobile';
+                container.className = 'products-list products-list-mobile';
+                orderTotalsMobile.insertAdjacentElement('beforebegin', container);
+                
+                // Inserir divisor
+                const divisor = document.createElement('div');
+                divisor.style.cssText = 'border-top: 1px solid #e5e7eb; margin: 16px 0;';
+                container.insertAdjacentElement('afterend', divisor);
+                
+                console.log('✅ Container mobile criado antes dos totais');
+                return container;
+            }
+        }
+
+        return null;
     }
 
     // Função para criar elementos dos produtos
-    function criarElementosProdutos(produtos, container) {
+    function criarElementosProdutos(produtos, container, tipo = 'desktop') {
         // Limpar container
         container.innerHTML = '';
-
-        // Injetar CSS se não existir
-        injetarCSS();
 
         // Criar cada produto
         produtos.forEach((produto, index) => {
@@ -128,6 +141,7 @@
                 const produtoDiv = document.createElement('div');
                 produtoDiv.className = 'product-item';
                 produtoDiv.dataset.index = index;
+                produtoDiv.dataset.type = tipo;
 
                 // Extrair dados do produto (suporta múltiplos formatos)
                 const nome = produto.nome || produto.name || produto.title || 'Produto sem nome';
@@ -157,7 +171,7 @@
                 `;
 
                 container.appendChild(produtoDiv);
-                console.log(`✅ Produto ${index + 1} adicionado: ${nome}`);
+                console.log(`✅ Produto ${index + 1} adicionado (${tipo}): ${nome}`);
 
             } catch (error) {
                 console.error(`❌ Erro ao processar produto ${index}:`, error);
@@ -180,6 +194,10 @@
                 max-height: 400px;
                 overflow-y: auto;
                 padding: 0;
+            }
+
+            .products-list-mobile {
+                max-height: 300px;
             }
 
             .product-item {
@@ -267,13 +285,23 @@
                 currency: 'BRL'
             });
 
-            // Atualizar elemento de subtotal
-            const subtotalElements = document.querySelectorAll('.order-totals .total-row');
-            if (subtotalElements.length > 0) {
-                const priceSpan = subtotalElements[0].querySelector('span:last-child');
+            // Atualizar subtotal no DESKTOP
+            const subtotalElementsDesktop = document.querySelectorAll('aside.sidebar .order-totals .total-row');
+            if (subtotalElementsDesktop.length > 0) {
+                const priceSpan = subtotalElementsDesktop[0].querySelector('span:last-child');
                 if (priceSpan && priceSpan.textContent === '...') {
                     priceSpan.textContent = subtotalFormatado;
-                    console.log('✅ Subtotal atualizado:', subtotalFormatado);
+                    console.log('✅ Subtotal desktop atualizado:', subtotalFormatado);
+                }
+            }
+
+            // Atualizar subtotal no MOBILE
+            const subtotalElementsMobile = document.querySelectorAll('.order-summary-mobile .order-totals .total-row');
+            if (subtotalElementsMobile.length > 0) {
+                const priceSpan = subtotalElementsMobile[0].querySelector('span:last-child');
+                if (priceSpan && priceSpan.textContent === '...') {
+                    priceSpan.textContent = subtotalFormatado;
+                    console.log('✅ Subtotal mobile atualizado:', subtotalFormatado);
                 }
             }
 
@@ -305,9 +333,9 @@
                 currency: 'BRL'
             });
 
-            // Atualizar total na sidebar
-            const totalElements = document.querySelectorAll('.order-totals .total-row.final');
-            totalElements.forEach(el => {
+            // Atualizar total na sidebar (desktop)
+            const totalElementsDesktop = document.querySelectorAll('aside.sidebar .order-totals .total-row.final');
+            totalElementsDesktop.forEach(el => {
                 const priceSpan = el.querySelector('span:last-child');
                 if (priceSpan && priceSpan.textContent === '...') {
                     priceSpan.textContent = totalFormatado;
@@ -315,9 +343,18 @@
             });
 
             // Atualizar total no mobile
-            const mobileFinalPrice = document.getElementById('mobileFinalPrice');
-            if (mobileFinalPrice && mobileFinalPrice.textContent === '...') {
-                mobileFinalPrice.textContent = totalFormatado;
+            const totalElementsMobile = document.querySelectorAll('.order-summary-mobile .order-totals .total-row.final');
+            totalElementsMobile.forEach(el => {
+                const priceSpan = el.querySelector('span:last-child');
+                if (priceSpan && priceSpan.textContent === '...') {
+                    priceSpan.textContent = totalFormatado;
+                }
+            });
+
+            // Atualizar total no toggle mobile
+            const mobileTotalPrice = document.getElementById('mobileTotalPrice');
+            if (mobileTotalPrice && mobileTotalPrice.textContent === '...') {
+                mobileTotalPrice.textContent = totalFormatado;
             }
 
             console.log('✅ Total atualizado:', totalFormatado);
@@ -355,11 +392,11 @@
     // Inicializar quando o DOM estiver pronto
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('📦 Iniciando carregamento de produtos...');
+            console.log('📦 Iniciando carregamento de produtos (Desktop + Mobile)...');
             carregarComRetry();
         });
     } else {
-        console.log('📦 Iniciando carregamento de produtos...');
+        console.log('📦 Iniciando carregamento de produtos (Desktop + Mobile)...');
         carregarComRetry();
     }
 
