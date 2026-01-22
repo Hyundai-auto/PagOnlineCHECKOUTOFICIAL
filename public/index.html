@@ -70,6 +70,50 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
       color: #0277bd;
     }
   </style>
+
+ <style>
+    .products-list {
+        margin-bottom: 20px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .product-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+    }
+
+    .product-item:last-child {
+        border-bottom: none;
+    }
+
+    .product-info {
+        flex: 1;
+    }
+
+    .product-name {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .product-qty {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .product-price {
+        font-weight: 600;
+        color: #333;
+        text-align: right;
+        min-width: 80px;
+    }
+</style>
+
 </head>
 <body>
     <div class="checkout-container">
@@ -462,6 +506,15 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
 
         <aside class="sidebar">
             <h3 class="order-summary-title">Resumo do Pedido</h3>
+
+         <!-- SEÇÃO DE PRODUTOS -->
+<div class="products-list" id="productsList">
+    <!-- Os produtos serão inseridos aqui via JavaScript -->
+</div>
+
+<!-- DIVISOR -->
+<div style="border-top: 1px solid #e5e7eb; margin: 16px 0;"></div>
+
             
             <div class="order-totals">
                 <div class="total-row">
@@ -691,99 +744,146 @@ src="https://www.facebook.com/tr?id=1602293164280607&ev=PageView&noscript=1"
 </footer>
 
     <script>
-    // Função para carregar dados do carrinho no resumo do pedido
-    function carregarDadosCarrinho() {
+    // Função para carregar e exibir produtos no resumo
+    function carregarProdutosNoResumo() {
         try {
-            // 1. Obter subtotal da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const subtotal = urlParams.get('subtotal');
-            
-            // 2. Obter dados do localStorage
+            // Obter dados do localStorage
             const produtosJSON = localStorage.getItem('carrinho_produtos');
-            const totalItens = localStorage.getItem('carrinho_total_itens');
+            const subtotalURL = new URLSearchParams(window.location.search).get('subtotal');
             
             if (!produtosJSON) {
-                console.log('Nenhum dado de carrinho encontrado');
+                console.log('Nenhum produto encontrado no localStorage');
                 return;
             }
             
             const produtos = JSON.parse(produtosJSON);
             
-            // 3. Atualizar subtotal no resumo
-            if (subtotal) {
-                const subtotalFormatado = parseFloat(subtotal).toLocaleString('pt-BR', {
+            // Verificar se é um array
+            if (!Array.isArray(produtos)) {
+                console.error('Formato de produtos inválido');
+                return;
+            }
+            
+            // Obter container dos produtos
+            const productsList = document.getElementById('productsList');
+            if (!productsList) {
+                console.error('Container de produtos não encontrado');
+                return;
+            }
+            
+            // Limpar lista anterior
+            productsList.innerHTML = '';
+            
+            // Adicionar cada produto
+            produtos.forEach(produto => {
+                const produtoDiv = document.createElement('div');
+                produtoDiv.className = 'product-item';
+                
+                // Formatar preço
+                const preco = parseFloat(produto.preco || produto.price || 0);
+                const precoFormatado = preco.toLocaleString('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
                 });
                 
-                // Atualizar sidebar
-                const subtotalElement = document.querySelector('.order-totals .total-row span:nth-child(2)');
-                if (subtotalElement) {
-                    subtotalElement.textContent = subtotalFormatado;
+                // Quantidade
+                const quantidade = produto.quantidade || produto.quantity || 1;
+                
+                // Nome do produto
+                const nome = produto.nome || produto.name || 'Produto sem nome';
+                
+                produtoDiv.innerHTML = `
+                    <div class="product-info">
+                        <div class="product-name">${nome}</div>
+                        <div class="product-qty">Qtd: ${quantidade}</div>
+                    </div>
+                    <div class="product-price">${precoFormatado}</div>
+                `;
+                
+                productsList.appendChild(produtoDiv);
+            });
+            
+            // Atualizar subtotal
+            if (subtotalURL) {
+                const subtotalNum = parseFloat(subtotalURL);
+                const subtotalFormatado = subtotalNum.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                
+                // Atualizar no sidebar
+                const subtotalElements = document.querySelectorAll('.order-totals .total-row');
+                if (subtotalElements.length > 0) {
+                    const firstRow = subtotalElements[0];
+                    const priceSpan = firstRow.querySelector('span:last-child');
+                    if (priceSpan) {
+                        priceSpan.textContent = subtotalFormatado;
+                    }
                 }
                 
-                // Atualizar mobile
-                const mobileTotalPrice = document.getElementById('mobileTotalPrice');
-                if (mobileTotalPrice) {
-                    mobileTotalPrice.textContent = subtotalFormatado;
-                }
+                // Atualizar total final
+                atualizarTotalFinal(subtotalNum);
             }
             
-            // 4. Atualizar total final (será recalculado com frete)
-            atualizarTotalFinal(subtotal);
-            
-            console.log('Dados do carrinho carregados com sucesso');
-            console.log('Produtos:', produtos);
-            console.log('Total de itens:', totalItens);
+            console.log('Produtos carregados com sucesso:', produtos);
             
         } catch (error) {
-            console.error('Erro ao carregar dados do carrinho:', error);
+            console.error('Erro ao carregar produtos:', error);
         }
     }
     
     // Função para atualizar o total final
     function atualizarTotalFinal(subtotal) {
-        if (!subtotal) return;
-        
-        const subtotalNum = parseFloat(subtotal);
-        let frete = 0;
-        
-        // Obter valor do frete selecionado
-        const shippingOption = document.querySelector('.shipping-option.selected');
-        if (shippingOption) {
-            const priceText = shippingOption.querySelector('.shipping-price').textContent;
-            if (priceText !== 'GRÁTIS') {
-                frete = parseFloat(priceText.replace('R$ ', '').replace(',', '.'));
+        try {
+            let frete = 0;
+            
+            // Obter valor do frete selecionado
+            const shippingOption = document.querySelector('.shipping-option.selected');
+            if (shippingOption) {
+                const priceText = shippingOption.querySelector('.shipping-price').textContent;
+                if (priceText !== 'GRÁTIS') {
+                    frete = parseFloat(priceText.replace('R$', '').replace(',', '.').trim());
+                }
             }
-        }
-        
-        const total = subtotalNum + frete;
-        const totalFormatado = total.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        });
-        
-        // Atualizar sidebar
-        const totalElement = document.querySelector('.order-totals .total-row.final span:nth-child(2)');
-        if (totalElement) {
-            totalElement.textContent = totalFormatado;
-        }
-        
-        // Atualizar mobile
-        const mobileFinalPrice = document.getElementById('mobileFinalPrice');
-        if (mobileFinalPrice) {
-            mobileFinalPrice.textContent = totalFormatado;
+            
+            const total = subtotal + frete;
+            const totalFormatado = total.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            
+            // Atualizar no sidebar
+            const totalElements = document.querySelectorAll('.order-totals .total-row.final');
+            totalElements.forEach(el => {
+                const priceSpan = el.querySelector('span:last-child');
+                if (priceSpan) {
+                    priceSpan.textContent = totalFormatado;
+                }
+            });
+            
+            // Atualizar no mobile
+            const mobileFinalPrice = document.getElementById('mobileFinalPrice');
+            if (mobileFinalPrice) {
+                mobileFinalPrice.textContent = totalFormatado;
+            }
+            
+        } catch (error) {
+            console.error('Erro ao atualizar total:', error);
         }
     }
     
-    // Carregar dados quando a página terminar de carregar
-    document.addEventListener('DOMContentLoaded', carregarDadosCarrinho);
+    // Carregar produtos quando a página terminar de carregar
+    document.addEventListener('DOMContentLoaded', carregarProdutosNoResumo);
     
     // Recarregar totais quando mudar opção de frete
-    document.querySelectorAll('.shipping-option').forEach(option => {
-        option.addEventListener('click', function() {
-            const subtotal = new URLSearchParams(window.location.search).get('subtotal');
-            atualizarTotalFinal(subtotal);
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.shipping-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const subtotal = new URLSearchParams(window.location.search).get('subtotal');
+                if (subtotal) {
+                    atualizarTotalFinal(parseFloat(subtotal));
+                }
+            });
         });
     });
 </script>
