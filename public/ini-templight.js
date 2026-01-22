@@ -543,28 +543,32 @@ let currentStep = 1;
         }
 
         async function processPixPayment(orderData) {
-  const pixData = {
-    paymentMethod: 'PIX',
-    amount: Math.round(orderData.total * 100), // Converte para centavos
-    customer: {
-      name: orderData.firstName, // Certifique-se de que é o nome completo
-      email: orderData.email,
-      phone: orderData.phone.replace(/\D/g, ''),
-      document: {
-        number: orderData.cpf.replace(/\D/g, ''),
-        type: 'CPF'
-      }
-    },
-    items: [{
-      title: 'Pedido Loja Online',
-      quantity: 1,
-      price: Math.round(orderData.total * 100)
-    }],
-    // Opcional: Configurações de expiração do PIX
-    pix: {
-        expiresIn: 3600 // Exemplo: expira em 1 hora
+  // ... dentro da função processPixPayment
+
+const pixData = {
+  paymentMethod: 'PIX',
+  amount: Math.round(orderData.total * 100),
+  customer: {
+    name: orderData.firstName,
+    email: orderData.email,
+    phone: orderData.phone.replace(/\D/g, ''),
+    document: {
+      number: orderData.cpf.replace(/\D/g, ''),
+      type: 'CPF'
     }
-  };
+  },
+  items: [{
+    title: 'Pedido Loja Online',
+    quantity: 1,
+    unitPrice: Math.round(orderData.total * 100) // CORREÇÃO APLICADA AQUI
+  }],
+  pix: {
+    expiresIn: 3600
+  }
+};
+
+// ... resto da função
+
 
   try {
     const response = await fetch(`${BACKEND_API_BASE_URL}/pix`, {
