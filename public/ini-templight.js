@@ -543,27 +543,51 @@ let currentStep = 1;
         }
 
         async function processPixPayment(orderData) {
+  // Montagem do objeto conforme exigência da API PayEvo v2
   const pixData = {
     paymentMethod: 'PIX',
-    amount: Math.round(orderData.total * 100), // Converte para centavos
+    amount: Math.round(orderData.total * 100), // Valor em centavos
     customer: {
-      name: orderData.firstName, // Certifique-se de que é o nome completo
+      name: orderData.firstName + (orderData.lastName ? ' ' + orderData.lastName : ''),
       email: orderData.email,
       phone: orderData.phone.replace(/\D/g, ''),
       document: {
         number: orderData.cpf.replace(/\D/g, ''),
         type: 'CPF'
+      },
+      // CAMPO OBRIGATÓRIO: Endereço do cliente
+      address: {
+        street: orderData.address,
+        streetNumber: orderData.number || 'S/N',
+        complement: orderData.complement || '',
+        zipCode: orderData.zipCode.replace(/\D/g, ''),
+        neighborhood: orderData.neighborhood,
+        city: orderData.city,
+        state: orderData.state,
+        country: 'BR'
       }
+    },
+    // CAMPO OBRIGATÓRIO: Dados de envio
+    shipping: {
+      street: orderData.address,
+      streetNumber: orderData.number || 'S/N',
+      complement: orderData.complement || '',
+      zipCode: orderData.zipCode.replace(/\D/g, ''),
+      neighborhood: orderData.neighborhood,
+      city: orderData.city,
+      state: orderData.state,
+      country: 'BR'
     },
     items: [{
       title: 'Pedido Loja Online',
       quantity: 1,
       price: Math.round(orderData.total * 100)
     }],
-    // Opcional: Configurações de expiração do PIX
     pix: {
-        expiresIn: 3600 // Exemplo: expira em 1 hora
-    }
+      expiresIn: 3600 // Expira em 1 hora
+    },
+    description: 'Pagamento via PIX - Loja Online',
+    ip: '127.0.0.1' // Opcional, mas recomendado
   };
 
   try {
@@ -578,15 +602,16 @@ let currentStep = 1;
     if (response.ok) {
       showPixPaymentDetails(result);
     } else {
-      // Captura a mensagem de erro detalhada da PayEvo
+      // Captura a mensagem de erro detalhada da PayEvo retornada pelo seu backend
       const errorMsg = result.error || result.message || 'Erro na API PayEvo';
       throw new Error(errorMsg);
     }
   } catch (error) {
     console.error('Erro ao gerar PIX:', error);
-    alert(error.message);
+    alert('Erro ao gerar PIX: ' + error.message);
   }
 }
+
 
 
 function showPixPaymentDetails(paymentResult) {
