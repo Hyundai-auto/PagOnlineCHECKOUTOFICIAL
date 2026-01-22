@@ -167,6 +167,7 @@
                 const nome = produto.nome || produto.name || produto.title || 'Produto sem nome';
                 const quantidade = parseInt(produto.quantidade || produto.quantity || 1);
                 const preco = parseFloat(produto.preco || produto.price || produto.valor || 0);
+                const foto = produto.foto || produto.image || produto.img || produto.imagem || '';
 
                 // Formatar preço
                 const precoFormatado = preco.toLocaleString('pt-BR', {
@@ -181,8 +182,11 @@
                     currency: 'BRL'
                 });
 
-                // Montar HTML
+                // Montar HTML com imagem
+                const imagemHTML = foto ? `<img src="${sanitizeHTML(foto)}" alt="${sanitizeHTML(nome)}" class="product-image" onerror="this.style.display='none'">` : '';
+                
                 produtoDiv.innerHTML = `
+                    ${imagemHTML}
                     <div class="product-info">
                         <div class="product-name">${sanitizeHTML(nome)}</div>
                         <div class="product-qty">Qtd: ${quantidade} × ${precoFormatado}</div>
@@ -224,10 +228,20 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                gap: 12px;
                 padding: 12px 0;
                 border-bottom: 1px solid #f0f0f0;
                 font-size: 14px;
                 animation: slideIn 0.3s ease-out;
+            }
+
+            .product-image {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 6px;
+                flex-shrink: 0;
+                background: #f5f5f5;
             }
 
             .product-item:last-child {
@@ -278,6 +292,12 @@
                 .product-item {
                     padding: 10px 0;
                     font-size: 13px;
+                    gap: 10px;
+                }
+
+                .product-image {
+                    width: 50px;
+                    height: 50px;
                 }
 
                 .product-price {
