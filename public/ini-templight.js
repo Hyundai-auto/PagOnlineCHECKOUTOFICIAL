@@ -545,6 +545,8 @@ let currentStep = 1;
         async function processPixPayment(orderData) {
   // ... dentro da função processPixPayment
 
+// ... dentro da função processPixPayment
+
 const pixData = {
   paymentMethod: 'PIX',
   amount: Math.round(orderData.total * 100),
@@ -560,14 +562,14 @@ const pixData = {
   items: [{
     title: 'Pedido Loja Online',
     quantity: 1,
-    unitPrice: Math.round(orderData.total * 100) // CORREÇÃO APLICADA AQUI
+    unitPrice: Math.round(orderData.total * 100)
   }],
-  pix: {
-    expiresIn: 3600
-  }
+  // CORREÇÃO APLICADA AQUI: Mover o expiresIn para a raiz do objeto
+  expiresIn: 3600 
 };
 
 // ... resto da função
+
 
 
   try {
