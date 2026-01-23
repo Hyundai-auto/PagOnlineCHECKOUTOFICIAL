@@ -61,10 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const creditCardNotice = document.getElementById('creditCardNotice');
+        const creditCardNotice = document.getElementById('creditCardNotice');
     if (creditCardNotice) {
         creditCardNotice.style.display = 'none';
     }
+
+    // Esta é a linha que você deve adicionar:
+    toggleOrderSummary(); 
 });
 
 /**
