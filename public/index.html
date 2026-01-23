@@ -95,17 +95,6 @@
         min-width: 80px;
     }
 
-/* Resumo aberto por padrão */
-.order-summary-mobile.open .summary-content {
-    max-height: 500px;
-    opacity: 1;
-    display: block;
-}
-
-.order-summary-mobile.open .summary-toggle-icon {
-    transform: rotate(180deg);
-}
-   
     /* ============================================
        ESTILOS PARA REVELAÇÃO PROGRESSIVA
        ============================================ */
@@ -250,7 +239,7 @@
             </div>
         </header>
 
-        <div class="order-summary-mobile open">
+        <div class="order-summary-mobile">
             <div class="summary-toggle" onclick="toggleOrderSummary()">
                 <div class="summary-toggle-left">
                     <span class="summary-toggle-icon">▼</span>
