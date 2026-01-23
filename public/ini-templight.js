@@ -181,6 +181,7 @@ function updateCartTotal() {
 
 document.addEventListener('DOMContentLoaded', function() {
     parseSubtotalFromURL();
+    renderProducts(); // ← ADICIONE ESTA LINHA
     setupEventListeners();
     updateProgress();
     setupMasks();
