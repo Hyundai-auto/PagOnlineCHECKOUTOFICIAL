@@ -51,10 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartDisplay();
     initializeProgressiveFlow();
 
-    // ADICIONE ESTA LINHA ABAIXO:
-    toggleOrderSummary(); 
-});
-
     // Configurar teclado numérico para campos específicos
     const numericFields = ['cpf', 'zipCode', 'phone'];
     numericFields.forEach(fieldId => {
