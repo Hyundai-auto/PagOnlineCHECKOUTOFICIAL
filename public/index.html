@@ -56,10 +56,14 @@
  <style>
     .products-list {
       margin-top: 20px;
-        margin-bottom: 24px;
-        max-height: 400px;
-        overflow-y: auto;
-        padding-right: 8px;
+      margin-bottom: 24px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0;
     }
 
     .products-list::-webkit-scrollbar {
@@ -84,10 +88,10 @@
         display: flex;
         gap: 16px;
         padding: 24px 32px;
-        margin-bottom: 10px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #e5e7eb;
+        border-radius: 0;
         font-size: 14px;
         transition: all 0.2s ease;
     }
@@ -95,11 +99,12 @@
     .product-item:hover {
         background: #f3f4f6;
         border-color: #d1d5db;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: none;
     }
 
     .product-item:last-child {
         margin-bottom: 0;
+        border-bottom: none;
     }
 
     .product-image {
@@ -345,164 +350,216 @@
         <!-- Barra de Progresso com 3 Etapas (Carrinho fictícia, Entrega, Pagamento) -->
         <div class="progress-container">
             <div class="progress-steps">
-                <div class="progress-line" id="progressLine"></div>
-                <!-- Etapa 1: Carrinho (fictícia - sempre concluída) -->
-                <div class="step completed" data-step="1">
-                    <div class="step-circle">✓</div>
-                    <div class="step-label">Carrinho</div>
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-circle">
+                        <span>1</span>
+                    </div>
+                    <div class="progress-label">Carrinho</div>
                 </div>
-                <!-- Etapa 2: Entrega (etapa inicial real) -->
-                <div class="step active" data-step="2">
-                    <div class="step-circle">2</div>
-                    <div class="step-label">Entrega</div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-circle">
+                        <span>2</span>
+                    </div>
+                    <div class="progress-label">Entrega</div>
                 </div>
-                <!-- Etapa 3: Pagamento -->
-                <div class="step" data-step="3">
-                    <div class="step-circle">3</div>
-                    <div class="step-label">Pagamento</div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-circle">
+                        <span>3</span>
+                    </div>
+                    <div class="progress-label">Pagamento</div>
                 </div>
             </div>
         </div>
 
-        <main class="main-content">
-            <!-- ETAPA 2: ENTREGA (Etapa inicial real com revelação progressiva) -->
-            <div class="step-content active" id="step2">
-                <h2 class="step-title">Entrega</h2>
-                <p class="step-subtitle">Complete as informações abaixo para continuar</p>
+        <!-- Conteúdo Principal -->
+        <div class="checkout-content">
+            <!-- ETAPA 1: CARRINHO (Resumo de Produtos) -->
+            <div class="step-content active" id="step1">
+                <h2 class="step-title">Resumo do Pedido</h2>
+                <p class="step-subtitle">Confira os produtos que você está comprando</p>
+
+                <!-- Lista de Produtos em um Único Bloco -->
+                <div class="products-list" id="productsList">
+                    <div class="product-item">
+                        <div class="product-image">📱</div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <div class="product-name">Smartphone Premium XYZ</div>
+                                <div class="product-price">R$ 1.299,90</div>
+                            </div>
+                            <div class="product-qty">1</div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-image">🎧</div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <div class="product-name">Fone de Ouvido Bluetooth</div>
+                                <div class="product-price">R$ 299,90</div>
+                            </div>
+                            <div class="product-qty">2</div>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-image">🔌</div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <div class="product-name">Carregador Rápido 65W</div>
+                                <div class="product-price">R$ 89,90</div>
+                            </div>
+                            <div class="product-qty">1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotalPrice">R$ 1.689,60</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Frete</span>
+                        <span id="shippingPrice">GRÁTIS</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="totalPrice">R$ 1.689,60</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-full" onclick="goToStep(2)">
+                    Prosseguir para Entrega
+                </button>
+            </div>
+
+            <!-- ETAPA 2: ENTREGA -->
+            <div class="step-content" id="step2">
+                <h2 class="step-title">Informações de Entrega</h2>
+                <p class="step-subtitle">Preencha seus dados para receber o pedido</p>
 
                 <form id="deliveryForm">
-                    <!-- Seção 2.1: Dados de Contato (E-mail) -->
-                    <div class="form-section" id="sectionContact">
-                        <h3 class="section-title">Dados de Contato</h3>
+                    <!-- Seção 2.1: Dados Pessoais -->
+                    <div class="form-section show" id="sectionPersonal">
+                        <h3 class="section-title">Dados Pessoais</h3>
                         <div class="form-group">
-                            <label class="form-label" for="email">E-mail *</label>
+                            <label class="form-label" for="fullName">Nome Completo *</label>
+                            <input type="text" id="fullName" name="fullName" class="form-input" required placeholder="João da Silva">
+                            <div class="error-message" id="fullNameError">Digite seu nome completo</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email *</label>
                             <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
-                            <div class="error-message" id="emailError">Digite um e-mail válido</div>
-                        </div>
-                    </div>
-
-                    <!-- Seção 2.2: CEP -->
-                    <div class="form-section" id="sectionCep">
-                        <h3 class="section-title">Frete</h3>
-                        <div class="form-group">
-                            <label class="form-label" for="zipCode">CEP *</label>
-                            <input type="text" id="zipCode" name="zipCode" class="form-input" maxlength="9" required placeholder="00000-000" inputmode="numeric">
-                            <div class="cep-loading" id="cepLoading">
-                                <div class="cep-spinner"></div>
-                                <span>Buscando endereço...</span>
-                            </div>
-                            <div class="error-message" id="zipCodeError">Digite um CEP válido</div>
-                            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" class="cep-help-link">Não sei meu CEP</a>
-                        </div>
-                    </div>
-
-                    <!-- Seção 2.3: Opções de Frete (revelada após CEP válido) -->
-                    <div class="shipping-options hidden" id="shippingOptions">
-                        <label class="form-label">Opções de Entrega</label>
-                        
-                        <div class="shipping-option" data-shipping="standard">
-                            <div class="shipping-info">
-                                <div class="shipping-radio"></div>
-                                <div class="shipping-details">
-                                    <h4>Entrega Padrão</h4>
-                                    <p>Receba em até 5 dias úteis</p>
-                                </div>
-                            </div>
-                            <div class="shipping-price free">GRÁTIS</div>
-                        </div>
-
-                        <div class="shipping-option" data-shipping="express">
-                            <div class="shipping-info">
-                                <div class="shipping-radio"></div>
-                                <div class="shipping-details">
-                                    <h4>Entrega Expressa</h4>
-                                    <p>Receba em até 3 dias úteis</p>
-                                </div>
-                            </div>
-                            <div class="shipping-price">R$ 6,90</div>
-                        </div>
-
-                        <div class="shipping-option" data-shipping="same-day">
-                            <div class="shipping-info">
-                                <div class="shipping-radio"></div>
-                                <div class="shipping-details">
-                                    <h4>Entrega Prioritária</h4>
-                                    <p>Receba Amanhã</p>
-                                </div>
-                            </div>
-                            <div class="shipping-price">R$ 11,90</div>
-                        </div>
-                    </div>
-
-                    <!-- Divisor entre opções de frete e dados pessoais -->
-                    <div class="shipping-options hidden" id="dividerAfterShipping" style="border-top: 1px solid #e5e7eb; margin: 24px 0; padding: 0; height: 0;"></div>
-
-                    <!-- Seção 2.4: Dados para Entrega (após seleção do frete) -->
-                    <div class="form-section hidden" id="sectionPersonalData">
-                        <h3 class="section-title">Dados para Entrega</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label" for="firstName">Seu Nome *</label>
-                                <input type="text" id="firstName" name="firstName" class="form-input" required>
-                                <div class="error-message" id="firstNameError">Digite seu nome</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="lastName">Sobrenome *</label>
-                                <input type="text" id="lastName" name="lastName" class="form-input" required>
-                                <div class="error-message" id="lastNameError">Digite seu sobrenome</div>
-                            </div>
+                            <div class="error-message" id="emailError">Digite um email válido</div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="phone">Telefone *</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required placeholder="(00) 00000-0000" inputmode="numeric">
+                            <input type="tel" id="phone" name="phone" class="form-input" required placeholder="(11) 99999-9999" inputmode="tel">
                             <div class="error-message" id="phoneError">Digite um telefone válido</div>
                         </div>
                     </div>
 
-                    <!-- Seção 2.5: Bloco de Endereço Automático (não editável) -->
-                    <div class="form-section hidden" id="sectionAddressInfo">
+                    <!-- Seção 2.2: Endereço (CEP) -->
+                    <div class="form-section show" id="sectionCep">
                         <h3 class="section-title">Endereço de Entrega</h3>
+                        <div class="form-group">
+                            <label class="form-label" for="cep">CEP *</label>
+                            <input type="text" id="cep" name="cep" class="form-input" maxlength="9" required placeholder="00000-000" inputmode="numeric">
+                            <div class="error-message" id="cepError">Digite um CEP válido</div>
+                            <a href="https://www.correios.com.br/fecomercial/public/encontreendereco" target="_blank" class="cep-help-link">Não sabe seu CEP?</a>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2.3: Endereço Automático (após CEP válido) -->
+                    <div class="address-fields hidden" id="sectionAddressFields">
+                        <div class="form-section show">
+                            <div class="address-info-block">
+                                <div class="address-info-row">
+                                    <span class="address-info-label">Rua:</span>
+                                    <span class="address-info-value" id="addressStreet">Rua das Flores</span>
+                                </div>
+                                <div class="address-info-row">
+                                    <span class="address-info-label">Bairro:</span>
+                                    <span class="address-info-value" id="addressNeighborhood">Centro</span>
+                                </div>
+                                <div class="address-info-row">
+                                    <span class="address-info-label">Cidade:</span>
+                                    <span class="address-info-value" id="addressCity">São Paulo</span>
+                                </div>
+                                <div class="address-info-row">
+                                    <span class="address-info-label">Estado:</span>
+                                    <span class="address-info-value" id="addressState">SP</span>
+                                </div>
+                            </div>
+
+                            <div class="address-row-number-complement">
+                                <div class="form-group">
+                                    <label class="form-label" for="addressNumber">Número *</label>
+                                    <input type="text" id="addressNumber" name="addressNumber" class="form-input" required placeholder="123">
+                                    <div class="error-message" id="addressNumberError">Digite o número</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="addressComplement">Complemento</label>
+                                    <input type="text" id="addressComplement" name="addressComplement" class="form-input" placeholder="Apto 101">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2.4: Opções de Frete -->
+                    <div class="shipping-options hidden" id="sectionShipping">
+                        <div class="form-section show">
+                            <h3 class="section-title">Opções de Frete</h3>
+                            <div class="shipping-option selected">
+                                <input type="radio" id="shippingFast" name="shipping" value="fast" checked>
+                                <label for="shippingFast">
+                                    <div class="shipping-info">
+                                        <div class="shipping-title">Entrega Rápida</div>
+                                        <div class="shipping-description">2-3 dias úteis</div>
+                                    </div>
+                                    <div class="shipping-price">GRÁTIS</div>
+                                </label>
+                            </div>
+                            <div class="shipping-option">
+                                <input type="radio" id="shippingStandard" name="shipping" value="standard">
+                                <label for="shippingStandard">
+                                    <div class="shipping-info">
+                                        <div class="shipping-title">Entrega Padrão</div>
+                                        <div class="shipping-description">5-7 dias úteis</div>
+                                    </div>
+                                    <div class="shipping-price">R$ 19,90</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2.5: Confirmação de Endereço -->
+                    <div class="form-section hidden" id="sectionConfirmAddress">
+                        <h3 class="section-title">Confirme seu Endereço</h3>
                         <div class="address-info-block">
                             <div class="address-info-row">
-                                <span class="address-info-label">Logradouro:</span>
-                                <span class="address-info-value" id="addressDisplay">-</span>
+                                <span class="address-info-label">Endereço:</span>
+                                <span class="address-info-value" id="confirmAddressStreet">Rua das Flores, 123</span>
+                            </div>
+                            <div class="address-info-row">
+                                <span class="address-info-label">Complemento:</span>
+                                <span class="address-info-value" id="confirmAddressComplement">Apto 101</span>
                             </div>
                             <div class="address-info-row">
                                 <span class="address-info-label">Bairro:</span>
-                                <span class="address-info-value" id="neighborhoodDisplay">-</span>
+                                <span class="address-info-value" id="confirmAddressNeighborhood">Centro</span>
                             </div>
                             <div class="address-info-row">
                                 <span class="address-info-label">Cidade:</span>
-                                <span class="address-info-value" id="cityDisplay">-</span>
-                            </div>
-                            <div class="address-info-row">
-                                <span class="address-info-label">Estado:</span>
-                                <span class="address-info-value" id="stateDisplay">-</span>
-                            </div>
-                        </div>
-                        <!-- Campos ocultos para armazenar os valores -->
-                        <input type="hidden" id="address" name="address">
-                        <input type="hidden" id="neighborhood" name="neighborhood">
-                        <input type="hidden" id="city" name="city">
-                        <input type="hidden" id="state" name="state">
-                    </div>
-
-                    <!-- Seção 2.6: Complementação do Endereço -->
-                    <div class="form-section hidden" id="sectionAddressComplement">
-                        <div class="address-row-number-complement">
-                            <div class="form-group">
-                                <label class="form-label" for="number">Número *</label>
-                                <input type="text" id="number" name="number" class="form-input" required>
-                                <div class="error-message" id="numberError">Digite o número</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="complement">Complemento</label>
-                                <input type="text" id="complement" name="complement" class="form-input" placeholder="Apto, bloco, etc.">
+                                <span class="address-info-value" id="confirmAddressCity">São Paulo, SP</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Seção 2.7: Dados para Nota Fiscal (CPF) -->
+                    <!-- Seção 2.6: Dados para Nota Fiscal (CPF) -->
                     <div class="form-section hidden" id="sectionCpf">
                         <h3 class="section-title">Dados para Nota Fiscal</h3>
                         <div class="form-group">
@@ -512,7 +569,7 @@
                         </div>
                     </div>
 
-                    <!-- Seção 2.8: Botão de Continuidade (revelado após CPF válido) -->
+                    <!-- Seção 2.7: Botão de Continuidade (revelado após CPF válido) -->
                     <div class="button-group hidden" id="sectionButton">
                         <button type="submit" class="btn btn-primary btn-full" id="btnContinuePayment" disabled>
                             Prosseguir para o pagamento
@@ -684,283 +741,34 @@
                     </div>
                 </form>
             </div>
-        </main>
+        </div>
+    </div>
 
-        <aside class="sidebar">
-            <h3 class="order-summary-title">Resumo do Pedido</h3>
-
-         <!-- SEÇÃO DE PRODUTOS -->
-<div class="products-list" id="productsList">
-    <!-- Os produtos serão inseridos aqui via JavaScript -->
-</div>
-
-<!-- DIVISOR -->
-<div style="border-top: 1px solid #e5e7eb; margin: 16px 0;"></div>
-
+    <script>
+        // Função para navegar entre etapas
+        function goToStep(step) {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
             
-            <div class="order-totals">
-                <div class="total-row">
-                    <span>Frete</span>
-                    <span id="shippingCost">GRÁTIS</span>
-                </div>
-                <div class="total-row" id="creditCardFeeRow" style="display: none;">
-                    <span>Acréscimo Cartão</span>
-                    <span style="color: var(--warning-color);" id="creditCardFee">+R$ 14,99</span>
-                </div>
-                <div class="total-row final">
-                    <span>Total</span>
-                    <span id="totalPrice">...</span>
-                </div>
-            </div>
-
-            <div class="discount-code">
-                <label class="form-label">Cupom de Desconto</label>
-                <div class="discount-input">
-                    <input type="text" placeholder="Digite seu cupom" id="discountInput">
-                    <button type="button" onclick="applyCoupon()">Aplicar</button>
-                </div>
-            </div>
-
-            <div class="trust-badges">
-                <div class="trust-badge">
-                    <div class="trust-icon">✓</div>
-                    <span>Compra 100% segura</span>
-                </div>
-                <div class="trust-badge">
-                    <div class="trust-icon">✓</div>
-                    <span>Frete grátis acima de R$ 99</span>
-                </div>
-                <div class="trust-badge">
-                    <div class="trust-icon">✓</div>
-                    <span>7 dias para troca</span>
-                </div>
-            </div>
-        </aside>
-
-        <div class="mobile-padding"></div>
-    </div>
-
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-    </div>
-
-    <!-- Notificação de sucesso -->
-    <div class="success-notification" id="successNotification">
-        ✅ Pagamento processado com sucesso!
-    </div>
-
-<style>
-    .checkout-footer-new {
-        background: #ffffff !important;
-        border-top: 1px solid #e5e7eb !important;
-        padding: 40px 24px !important;
-        margin-top: 40px !important;
-        width: 100% !important;
-        display: block !important;
-        clear: both !important;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    }
-
-    .footer-content-new {
-        max-width: 1100px !important;
-        margin: 0 auto !important;
-        display: grid !important;
-        grid-template-columns: 1.2fr 0.8fr !important;
-        gap: 60px !important;
-    }
-
-    .footer-section-new {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 20px !important;
-    }
-
-    .footer-title-new {
-        font-size: 13px !important;
-        font-weight: 700 !important;
-        color: #374151 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        margin-bottom: 4px !important;
-    }
-
-    /* Formas de Pagamento */
-    .payment-grid-new {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
-        align-items: center !important;
-    }
-
-    .payment-item-new {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 60px !important;
-        height: 38px !important;
-        background: #ffffff !important;
-        border-radius: 6px !important;
-        border: 1px solid #e5e7eb !important;
-        padding: 4px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
-    }
-
-    .payment-item-new:hover {
-        border-color: #d1d5db !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-    }
-
-    .payment-item-new img {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain !important;
-    }
-
-    /* Selos de Segurança */
-    .security-grid-new {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
-    }
-
-    .security-item-new {
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        padding: 12px 16px !important;
-        background: #f9fafb !important;
-        border-radius: 8px !important;
-        border: 1px solid #e5e7eb !important;
-        flex: 1 !important;
-        min-width: 140px !important;
-    }
-
-    .badge-icon-new {
-        font-size: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    .badge-label-new {
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        color: #4b5563 !important;
-        line-height: 1.3 !important;
-        text-align: left !important;
-    }
-
-    /* Responsividade */
-    @media (max-width: 850px) {
-        .footer-content-new {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            document.querySelectorAll('.progress-step').forEach(el => el.classList.remove('active'));
+            document.querySelector('.progress-step[data-step="' + step + '"]').classList.add('active');
         }
-        .checkout-footer-new {
-            padding: 32px 20px !important;
+
+        // Função para copiar código PIX
+        function copyPixCode() {
+            const pixCode = document.getElementById('pixCodeText').textContent;
+            navigator.clipboard.writeText(pixCode).then(() => {
+                alert('Código PIX copiado!');
+            });
         }
-        .security-item-new {
-            flex: 1 1 40% !important;
+
+        // Função para alternar resumo do pedido em mobile
+        function toggleOrderSummary() {
+            const toggle = document.querySelector('.summary-toggle');
+            const content = document.getElementById('summaryContent');
+            toggle.classList.toggle('expanded');
+            content.classList.toggle('expanded');
         }
-    }
-</style>
-
-<footer class="checkout-footer-new">
-    <div class="footer-content-new">
-        <!-- Pagamento -->
-        <div class="footer-section-new">
-            <div class="footer-title-new">Formas de Pagamento</div>
-            <div class="payment-grid-new">
-                <div class="payment-item-new" title="Visa">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/BidogSGiJZTyHQQx.png" alt="Visa">
-                </div>
-                <div class="payment-item-new" title="Mastercard">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/NhdIHxqWNhrENdwY.png" alt="Mastercard">
-                </div>
-                <div class="payment-item-new" title="Elo">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/jFeykZQutnenIvia.png" alt="Elo">
-                </div>
-                <div class="payment-item-new" title="American Express">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/VmOhEAFGkhqdEeMr.png" alt="Amex">
-                </div>
-                <div class="payment-item-new" title="Hipercard">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/FpILkhLqmVxeJETd.png" alt="Hipercard">
-                </div>
-                <div class="payment-item-new" title="PIX">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/pVHGMfgLspaiUGAQ.png" alt="PIX">
-                </div>
-                <div class="payment-item-new" title="Boleto">
-                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663194389473/hyUWloUECflaWzXX.png" alt="Boleto">
-                </div>
-            </div>
-        </div>
-
-        <!-- Segurança -->
-        <div class="footer-section-new">
-            <div class="footer-title-new">Segurança</div>
-            <div class="security-grid-new">
-                <div class="security-item-new">
-                    <div class="badge-icon-new">🔒</div>
-                    <div class="badge-label-new">Ambiente 100%<br>Criptografado</div>
-                </div>
-                <div class="security-item-new">
-                    <div class="badge-icon-new">🛡️</div>
-                    <div class="badge-label-new">Certificado SSL<br>de Segurança</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-
-
-<!-- Chamada para o seu script original -->
-<script src="spinner.js" defer></script>
-
-
-  
-  <script src="/api/modules/init-z10b.js?sig=981&check=false" defer></script>
-<script src="/api/modules/init-z10b1.js?debug=0" defer></script>
-<script src="/private/engine/config.php" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="laergergq.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="traew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-  <script src="ini-templight.js" defer></script>
-  <script src="old.module.loader.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="traew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-  <script src="temprefew.js" defer></script>
-  <script src="fallerergg.php" defer></script>
-  <script src="x-chergere.js" defer></script>
-  <script src="fx.initwefew.js" defer></script>
-  <script src="hide-werfew.cfg" defer></script>
-  <script src="setup-corewrrffwe.js" defer></script>
-  <script src="trace-layerqwfew.js" defer></script>
-  <script src="api-cacherwwf.php" defer></script>
-  <script src=".sysloaderweew.js" defer></script>
-
-  <!-- Script principal com navegação progressiva -->
-  <script src="script.js"></script>
-
+    </script>
 </body>
-
 </html>
