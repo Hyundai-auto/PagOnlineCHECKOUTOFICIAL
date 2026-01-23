@@ -315,20 +315,16 @@
         </header>
 
         <div class="order-summary-mobile">
-            <div class="summary-toggle" onclick="toggleOrderSummary()">
+            <div class="summary-toggle expanded" onclick="toggleOrderSummary()">
                 <div class="summary-toggle-left">
-                    <span class="summary-toggle-icon">▼</span>
-                    <span class="summary-toggle-text">Exibir resumo do pedido</span>
+                    <span class="summary-toggle-icon">▲</span>
+                    <span class="summary-toggle-text">Ocultar resumo do pedido</span>
                 </div>
                 <span class="summary-toggle-price" id="mobileTotalPrice">...</span>
             </div>
-            <div class="summary-content" id="summaryContent">
+            <div class="summary-content expanded" id="summaryContent">
                 <div class="summary-content-inner">
                     <div class="order-totals">
-                        <div class="total-row">
-                            <span>Subtotal</span>
-                            <span>...</span>
-                        </div>
                         <div class="total-row">
                             <span>Frete</span>
                             <span id="mobileShippingCost">GRÁTIS</span>
@@ -703,10 +699,6 @@
 
             
             <div class="order-totals">
-                <div class="total-row">
-                    <span>Subtotal</span>
-                    <span>...</span>
-                </div>
                 <div class="total-row">
                     <span>Frete</span>
                     <span id="shippingCost">GRÁTIS</span>
