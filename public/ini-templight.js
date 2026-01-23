@@ -61,13 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-        const creditCardNotice = document.getElementById('creditCardNotice');
+    const creditCardNotice = document.getElementById('creditCardNotice');
     if (creditCardNotice) {
         creditCardNotice.style.display = 'none';
     }
-
-    // Esta é a linha que você deve adicionar:
-    toggleOrderSummary(); 
 });
 
 /**
@@ -99,13 +96,20 @@ function initializeProgressiveFlow() {
         sectionCep.classList.remove('hidden');
     }
 
-        // ... código anterior da função ...
+    // Garante que o botão fictício esteja visível
     const sectionContinueButton = document.getElementById('sectionContinueButton');
     if (sectionContinueButton) {
         sectionContinueButton.style.display = 'block';
     }
-} // A função termina aqui agora
 
+    // Foca no campo de email
+    setTimeout(() => {
+        const emailField = document.getElementById('email');
+        if (emailField) {
+            emailField.focus();
+        }
+    }, 500);
+}
 
 function parseSubtotalFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
