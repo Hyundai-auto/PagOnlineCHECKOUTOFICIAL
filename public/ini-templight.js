@@ -101,14 +101,6 @@ function initializeProgressiveFlow() {
     if (sectionContinueButton) {
         sectionContinueButton.style.display = 'block';
     }
-
-    // Foca no campo de email
-    setTimeout(() => {
-        const emailField = document.getElementById('');
-        if () {
-            emailField.focus();
-        }
-    }, 500);
 }
 
 function parseSubtotalFromURL() {
