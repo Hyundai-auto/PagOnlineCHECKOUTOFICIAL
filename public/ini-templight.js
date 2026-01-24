@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     updateProgress();
     setupMasks();
-    initializeTotalAsLoading();
     updateCartDisplay();
     initializeProgressiveFlow();
     initializePaymentMethod();
@@ -134,20 +133,12 @@ function updateOrderTotals() {
         mobileSubtotalEl.textContent = `R$ ${cartData.subtotal.toFixed(2).replace(".", ",")}`;
     }
     
-    // NÃO atualizar mobileTotalPrice aqui!
-    // Deixar que updateShippingCost() faça isso
+    const mobileTotalPrice = document.getElementById("mobileTotalPrice");
+    if (mobileTotalPrice) {
+        mobileTotalPrice.textContent = `R$ ${cartData.subtotal.toFixed(2).replace(".", ",")}`;
+    }
     
     updateShippingCost();
-}
-
-function initializeTotalAsLoading() {
-    const totalPriceEl = document.getElementById('totalPrice');
-    const mobileTotalPriceEl = document.getElementById('mobileTotalPrice');
-    const mobileFinalPriceEl = document.getElementById('mobileFinalPrice');
-    
-    if (totalPriceEl) totalPriceEl.textContent = '...';
-    if (mobileTotalPriceEl) mobileTotalPriceEl.textContent = '...';
-    if (mobileFinalPriceEl) mobileFinalPriceEl.textContent = '...';
 }
 
 function setupEventListeners() {
@@ -1311,11 +1302,6 @@ function updateShippingCost() {
     const totalPriceEl = document.getElementById('totalPrice');
     const mobileTotalPriceEl = document.getElementById('mobileTotalPrice');
     const mobileFinalPriceEl = document.getElementById('mobileFinalPrice');
-
-    // Mostrar "..." durante o carregamento
-    if (totalPriceEl) totalPriceEl.textContent = '...';
-    if (mobileTotalPriceEl) mobileTotalPriceEl.textContent = '...';
-    if (mobileFinalPriceEl) mobileFinalPriceEl.textContent = '...';
     
     let shippingCost = 0;
     let basePrice = cartData.subtotal;
@@ -1335,7 +1321,7 @@ function updateShippingCost() {
             shippingCost = 11.90;
             break;
         default:
-            shippingText = 'GRÁTIS';
+            shippingText = '-';
             shippingCost = 0;
     }
 
