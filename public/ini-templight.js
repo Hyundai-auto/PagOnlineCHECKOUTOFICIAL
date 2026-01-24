@@ -135,7 +135,7 @@ function updateOrderTotals() {
     
     const mobileTotalPrice = document.getElementById("mobileTotalPrice");
     if (mobileTotalPrice) {
-        mobileTotalPrice.textContent = `R$ ${cartData.subtotal.toFixed(2).replace(".", ",")}`;
+        mobileTotalPrice.textContent = `...`;
     }
     
     updateShippingCost();
