@@ -134,6 +134,9 @@ function updateOrderTotals() {
         mobileSubtotalEl.textContent = `R$ ${cartData.subtotal.toFixed(2).replace(".", ",")}`;
     }
     
+    // NÃO atualizar mobileTotalPrice aqui!
+    // Deixar que updateShippingCost() faça isso
+    
     updateShippingCost();
 }
 
