@@ -1321,7 +1321,7 @@ function updateShippingCost() {
             shippingCost = 11.90;
             break;
         default:
-            shippingText = '-';
+            shippingText = 'GRÁTIS';
             shippingCost = 0;
     }
 
