@@ -1357,7 +1357,9 @@ function updateShippingCost() {
     
     updatePaymentMethodValues(total - creditCardFee);
 
-    const totalFormatted = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    // Exibe "..." quando nenhuma opção de frete é selecionada
+const totalFormatted = selectedShipping === null ? '...' : `R$ ${total.toFixed(2).replace('.', ',')}`;
+
     
     if (shippingCostEl) shippingCostEl.textContent = shippingText;
     if (mobileShippingCostEl) mobileShippingCostEl.textContent = shippingText;
