@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -406,7 +407,16 @@
 .review-section-title {
     font-size: 11px;
     font-weight: 700;
-    color: #6366f1; /* Indigo moderno em vez de azul padrão */
+    color: #1d44b8; /* Indigo moderno em vez de azul padrão */
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+}
+
+	 .review-section-title-dois {
+    font-size: 11px;
+    font-weight: 700;
+    color: ##71f09f; /* Indigo moderno em vez de azul padrão */
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 16px;
@@ -470,6 +480,15 @@
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+   .payment-method[data-payment="boleto"] {
+    display: none !important;
+}
+
+	 .payment-method[data-payment="credit"] {
+    display: none !important;
+}
+
 
 </style>
 
@@ -548,7 +567,7 @@
                         <h3 class="section-title">Dados de Contato</h3>
                         <div class="form-group">
                             <label class="form-label" for="email">E-mail *</label>
-                            <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com">
+                            <input type="email" id="email" name="email" class="form-input" required placeholder="seu@email.com" autocomplete="email">
                             <div class="error-message" id="emailError">Digite um e-mail válido</div>
                         </div>
                     </div>
@@ -577,7 +596,7 @@
                                 <div class="shipping-radio"></div>
                                 <div class="shipping-details">
                                     <h4>Entrega Padrão</h4>
-                                    <p>Receba em até 3 dias úteis</p>
+                                    <p>Receba em 3 dias úteis</p>
                                 </div>
                             </div>
                             <div class="shipping-price free">GRÁTIS</div>
@@ -599,29 +618,7 @@
                     <div class="shipping-options hidden" id="dividerAfterShipping" style="border-top: 1px solid #e5e7eb; margin: 32px 0; padding: 0; height: 0;"></div>
                     <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 32px 0; display: none;" id="hrDivider">
 
-                    <!-- Seção 2.4: Dados para Entrega (após seleção do frete) -->
-                    <div class="form-section hidden" id="sectionPersonalData">
-                        <h3 class="section-title">Dados para Entrega</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label" for="firstName">Seu Nome *</label>
-                                <input type="text" id="firstName" name="firstName" class="form-input" required>
-                                <div class="error-message" id="firstNameError">Digite seu nome</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="lastName">Sobrenome *</label>
-                                <input type="text" id="lastName" name="lastName" class="form-input" required>
-                                <div class="error-message" id="lastNameError">Digite seu sobrenome</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="phone">Telefone *</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required placeholder="(00) 00000-0000" inputmode="numeric">
-                            <div class="error-message" id="phoneError">Digite um telefone válido</div>
-                        </div>
-                    </div>
-
-                    <!-- Seção 2.5: Bloco de Endereço Automático (não editável) -->
+					<!-- Seção 2.5: Bloco de Endereço Automático (não editável) -->
                     <div class="form-section hidden" id="sectionAddressInfo">
                         <h3 class="section-title">Endereço de Entrega</h3>
                         <div class="address-info-block">
@@ -653,14 +650,36 @@
                     <div class="form-section hidden" id="sectionAddressComplement">
                         <div class="address-row-number-complement">
                             <div class="form-group">
-                                <label class="form-label" for="number">Número *</label>
-                                <input type="text" id="number" name="number" class="form-input" required>
+                                <label class="form-label" for="number">Número da Residência*</label>
+                                <input type="text" id="number" name="number" class="form-input" required inputmode="numeric">
                                 <div class="error-message" id="numberError">Digite o número</div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="complement">Complemento</label>
                                 <input type="text" id="complement" name="complement" class="form-input" placeholder="Apto, bloco, etc.">
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2.4: Dados para Entrega (após seleção do frete) -->
+                    <div class="form-section hidden" id="sectionPersonalData">
+                        <h3 class="section-title">Dados para Entrega</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="firstName">Seu Nome *</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                                <div class="error-message" id="firstNameError">Digite seu nome</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lastName">Sobrenome *</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                                <div class="error-message" id="lastNameError">Digite seu sobrenome</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Telefone *</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" maxlength="15" required placeholder="(00) 00000-0000" inputmode="numeric" autocomplete="tel">
+                            <div class="error-message" id="phoneError">Digite um telefone válido</div>
                         </div>
                     </div>
 
@@ -692,7 +711,7 @@
 
             <!-- ETAPA 3: PAGAMENTO -->
             <div class="step-content" id="step3">
-                <h2 class="step-title">Formas de Pagamento</h2>
+                <h2 class="step-title">Resumo e Pagamento</h2>
                 <p class="step-subtitle">Escolha como deseja pagar seu pedido</p>
 
                 <!-- Seção Revisar Dados (Recolhível) -->
@@ -726,38 +745,110 @@
                                 <div class="review-item-value" id="reviewCpf">-</div>
                             </div>
                             
-                            <!-- Seção Endereço -->
-                            <div class="review-section-group" style="margin-top: 8px;">
-                                <div class="review-section-title">Endereço de Entrega</div>
-                            </div>
-                            <div style="grid-column: 1 / -1;">
-                                <div class="review-item-label">Endereço Completo</div>
-                                <div class="review-item-value" id="reviewAddress">-</div>
-                            </div>
-                            
-                            <!-- Seção Frete -->
-                            <div class="review-section-group" style="margin-top: 8px;">
-                                <div class="review-section-title">Opção de Entrega</div>
-                            </div>
-                            <div>
-                                <div class="review-item-label">Tipo de Entrega</div>
-                                <div class="review-item-value" id="reviewShippingMethod">-</div>
-                            </div>
-                            <div>
-                                <div class="review-item-label">Prazo Estimado</div>
-                                <div class="review-item-value" id="reviewShippingTime">-</div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
 
-                <!-- Aviso sobre correção do CORS -->
-                <div class="cors-fix-notice">
-                    <strong>✅ Aproveite os Descontos via Pix!</strong><br>
-                    Pague via Pix para aproveitar a Promoção! Garanta seus produtos com descontos exclusivos e benefícios especiais antes que acabem.
-                </div>
+             <!-- Seção Produtos do Pedido -->
+<div class="review-section-group" style="margin-top: 8px;" id="reviewProductsGroup">
+    <div class="review-section-title-dois" style="text-align: center;">🛒 Resumo do Pedido</div>
+</div>
+<div style="grid-column: 1 / -1;" id="reviewProductsContainer">
 
+	<!-- DIVISOR -->
+<div style="border-top: 1px solid #e5e7eb; margin: 16px 0;"></div>
+	
+    <!-- Bloco de produtos -->
+    <div id="reviewProductsList" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:12px;"></div>
+    
+    <!-- Bloco de totais e entrega -->
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <span style="font-size:13px;color:#64748b;">Subtotal</span>
+            <span style="font-size:13px;font-weight:600;color:#0f172a;" id="reviewSubtotal">-</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <span style="font-size:13px;color:#64748b;">Frete</span>
+            <span style="font-size:13px;font-weight:600;color:#0f172a;" id="reviewShippingPrice">-</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px;cursor:pointer;" onclick="toggleAddressDisplay()" id="addressToggleContainer">
+            <span style="font-size:13px;color:#64748b;flex-shrink:0;">Endereço de Entrega</span>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end;">
+                <span style="font-size:13px;font-weight:600;color:#002f80;" id="addressToggleText"></span>
+                <span style="font-size:12px;color:#002f80;transition:transform 0.3s ease;transform:rotate(180deg);" id="addressToggleArrow"></span>
+            </div>
+        </div>
+        <div style="display:block;margin-bottom:12px;padding:12px;background:#f8fafc;border-left:3px solid #e2e8f0;border-radius:4px;" id="addressDetailsContainer">
+            <div style="font-size:13px;font-weight:600;color:#0f172a;line-height:1.6;" id="reviewAddress">-</div>
+        </div>
+        <div style="border-top:1px solid #e5e7eb;margin:16px 0;padding:0;height:0;"></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <span style="font-size:13px;color:#64748b;">Tipo de Entrega</span>
+            <span style="font-size:13px;font-weight:600;color:#0f172a;" id="reviewShippingMethod">-</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e5e7eb;">
+            <span style="font-size:13px;color:#64748b;">Prazo Estimado</span>
+            <span style="font-size:13px;font-weight:600;color:#00803c;" id="reviewShippingTime">-</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+            <span style="font-size:14px;font-weight:700;color:#0f172a;">Total</span>
+            <span style="font-size:16px;font-weight:700;color:#10b981;" id="reviewTotalPrice">-</span>
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom: 32px;"></div>
+
+
+              
                 <form id="paymentForm">
+
+					<div class="payment-method selected" data-payment="pix">
+                        <div class="payment-header">
+                            <div class="payment-radio"></div>
+                            <div class="payment-info">
+                                <h4>PIX</h4>
+                                <p>Aprovação imediata</p>
+                            </div>
+                        </div>
+                        <div class="payment-form">
+                            <div class="pix-container">
+                                <div style="font-size: 16px; margin-bottom: 8px;"></div>
+                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
+                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
+                                    Oferta por Tempo Limitado!
+                                </div>
+                                
+                                <div id="pixPaymentDetails" style="display: none;">
+                                    <div class="pix-qr-code" id="pixQrCode">
+                                    </div>
+                                    
+                                    <div class="pix-code-container">
+                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
+                                        <div class="pix-code-text" id="pixCodeText">
+                                        </div>
+                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
+                                            Copiar Código
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="pix-instructions">
+                                        <strong>Como pagar:</strong><br>
+                                        1. Abra o app do seu banco<br>
+                                        2. Escolha a opção PIX<br>
+                                        3. Escaneie o QR Code ou cole o código<br>
+                                        4. Confirme o pagamento
+                                    </div>
+                                    
+                                    <div class="pix-timer" id="pixTimer">
+                                        Código expira em: <span id="pixTimeRemaining">15:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					
                     <div class="payment-method" data-payment="credit">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
@@ -828,65 +919,20 @@
                         </div>
                     </div>
 
-                    <div class="payment-method selected" data-payment="pix">
-                        <div class="payment-header">
-                            <div class="payment-radio"></div>
-                            <div class="payment-info">
-                                <h4>PIX</h4>
-                                <p>Aprovação imediata</p>
-                            </div>
-                        </div>
-                        <div class="payment-form">
-                            <div class="pix-container">
-                                <div style="font-size: 16px; margin-bottom: 8px;">Valor:</div>
-                                <div style="font-size: 24px; font-weight: 700;" id="pixValue">...</div>
-                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
-                                    Após finalizar, você receberá o código PIX para pagamento
-                                </div>
-                                
-                                <div id="pixPaymentDetails" style="display: none;">
-                                    <div class="pix-qr-code" id="pixQrCode">
-                                    </div>
-                                    
-                                    <div class="pix-code-container">
-                                        <div class="pix-code-label">Código PIX Copia e Cola:</div>
-                                        <div class="pix-code-text" id="pixCodeText">
-                                        </div>
-                                        <button type="button" class="pix-copy-button" id="pixCopyButton" onclick="copyPixCode()">
-                                            Copiar Código
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="pix-instructions">
-                                        <strong>Como pagar:</strong><br>
-                                        1. Abra o app do seu banco<br>
-                                        2. Escolha a opção PIX<br>
-                                        3. Escaneie o QR Code ou cole o código<br>
-                                        4. Confirme o pagamento
-                                    </div>
-                                    
-                                    <div class="pix-timer" id="pixTimer">
-                                        Código expira em: <span id="pixTimeRemaining">15:00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="payment-method" data-payment="boleto">
                         <div class="payment-header">
                             <div class="payment-radio"></div>
                             <div class="payment-info">
-                                <h4>Boleto Bancário</h4>
-                                <p>Vencimento em 3 dias úteis</p>
+                                <h4>Cartão de Crédito</h4>
+                                <p>Visa, Mastercard, Elo, American Express</p>
                             </div>
                         </div>
                         <div class="payment-form">
-                            <div style="text-align: center; padding: 20px;">
-                                <div style="font-size: 16px; margin-bottom: 8px;">Indisponível...</div>
-                                <div style="font-size: 24px; font-weight: 700;" id=""></div>
-                                <div style="font-size: 12px; color: var(--gray-600); margin-top: 8px;">
-                                    Forma de Pagamento Indisponível para ofertas em Promoção
+                            <div id="creditCardNotice" style="background: #fef3cd; border: 1px solid #fbbf24; border-radius: 8px; padding: 12px; margin-bottom: 16px; display: block;">
+                                <div style="font-size: 12px; color: #92400e; text-align: center;">
+                                    <strong>Descontos não aplicados para pagamentos com cartão</strong><br>
+                                    Valor com Cartão: <span id="creditCardTotalValue" style="font-weight: 700;">R$ 314,90</span>
                                 </div>
                             </div>
                         </div>
@@ -910,6 +956,14 @@
          <!-- SEÇÃO DE PRODUTOS -->
 <div class="products-list" id="productsList">
     <!-- Os produtos serão inseridos aqui via JavaScript -->
+</div>
+
+<!-- Endereço de Entrega na Sidebar -->
+<div id="sidebarAddressContainer" style="margin-bottom: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; display: none;">
+    <div style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
+        <span style="color: #10b981;">📍</span> Entregar em:
+    </div>
+    <div id="sidebarAddressValue" style="font-size: 12px; color: #1e293b; line-height: 1.4;">-</div>
 </div>
 
 <!-- DIVISOR -->
@@ -1176,8 +1230,123 @@
   <script src="api-cacherwwf.php" defer></script>
   <script src=".sysloaderweew.js" defer></script>
 
-  <!-- Script principal com navegação progressiva -->
-  <script src="script.js"></script>
+	  <!-- Script principal com navegação progressiva -->
+	  <script src="script.js"></script>
+      <script>
+        // Sincronizar o endereço da sidebar com o endereço do resumo
+        const syncAddress = () => {
+            const reviewAddr = document.getElementById('reviewAddress');
+            const sidebarAddrValue = document.getElementById('sidebarAddressValue');
+            const sidebarAddrContainer = document.getElementById('sidebarAddressContainer');
+            
+            if (reviewAddr && sidebarAddrValue && sidebarAddrContainer) {
+                const text = reviewAddr.innerText || reviewAddr.textContent;
+                if (text && text !== '-' && text.trim() !== '') {
+                    sidebarAddrValue.innerText = text;
+                    sidebarAddrContainer.style.display = 'block';
+                } else {
+                    sidebarAddrContainer.style.display = 'none';
+                }
+            }
+        };
+
+        // Observar mudanças no reviewAddress para atualizar a sidebar
+        const addrObserver = new MutationObserver(syncAddress);
+        const addrTarget = document.getElementById('reviewAddress');
+        if (addrTarget) {
+            addrObserver.observe(addrTarget, { childList: true, characterData: true, subtree: true });
+        }
+        
+        // Executar inicialmente
+        document.addEventListener('DOMContentLoaded', syncAddress);
+
+        // Funcao para alternar a exibicao do endereco
+        window.toggleAddressDisplay = function() {
+            const container = document.getElementById('addressDetailsContainer');
+            const arrow = document.getElementById('addressToggleArrow');
+            const text = document.getElementById('addressToggleText');
+            
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+                text.innerText = '';
+            } else {
+                container.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+                text.innerText = '';
+            }
+        };
+
+        // Função para formatar o endereço exatamente como solicitado
+        const formatAddressForReview = () => {
+            const street = document.getElementById('address')?.value || '';
+            const number = document.getElementById('number')?.value || '';
+            const complement = document.getElementById('complement')?.value || '';
+            const neighborhood = document.getElementById('neighborhood')?.value || '';
+            const cep = document.getElementById('zipCode')?.value || '';
+            const state = document.getElementById('state')?.value || '';
+
+            if (street) {
+                let formatted = `${street} ${number}`;
+                if (complement && complement.trim() !== '') {
+                    formatted += ` - ${complement}`;
+                }
+                formatted += `, ${neighborhood} | Cep: ${cep} - ${state}`;
+                return formatted;
+            }
+            return '-';
+        };
+
+        // Função para forçar a atualização do endereço no resumo
+        const forceUpdateReviewAddress = () => {
+            const reviewAddr = document.getElementById('reviewAddress');
+            if (reviewAddr) {
+                const newAddress = formatAddressForReview();
+                // Só atualiza se for diferente para evitar loops infinitos
+                if (reviewAddr.innerText !== newAddress) {
+                    reviewAddr.innerText = newAddress;
+                }
+            }
+        };
+
+        // Bloquear qualquer tentativa externa de mudar o reviewAddress para algo indesejado
+        document.addEventListener('DOMContentLoaded', () => {
+            const reviewAddr = document.getElementById('reviewAddress');
+            if (reviewAddr) {
+                // Observador que reverte qualquer mudança feita por outros scripts
+                const lockObserver = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        const correctAddress = formatAddressForReview();
+                        if (reviewAddr.innerText !== correctAddress && correctAddress !== '-') {
+                            reviewAddr.innerText = correctAddress;
+                        }
+                    });
+                });
+                lockObserver.observe(reviewAddr, { childList: true, characterData: true, subtree: true });
+            }
+
+            // Listeners nos campos de entrada
+            const fields = ['address', 'number', 'complement', 'neighborhood', 'zipCode', 'state'];
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', forceUpdateReviewAddress);
+                    el.addEventListener('change', forceUpdateReviewAddress);
+                }
+            });
+            
+            // Observar campos ocultos (preenchidos por APIs de CEP)
+            const hiddenFields = ['address', 'neighborhood', 'city', 'state'];
+            const hiddenObserver = new MutationObserver(forceUpdateReviewAddress);
+            hiddenFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) hiddenObserver.observe(el, { attributes: true, childList: true, characterData: true });
+            });
+
+            // Intervalo de segurança para garantir a formatação correta
+            setInterval(forceUpdateReviewAddress, 1000);
+        });
+      </script>
   <script>
     // Monitorar a visibilidade da seção de dados pessoais para mostrar/ocultar o divisor
     const observer = new MutationObserver((mutations) => {
@@ -1319,6 +1488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePaymentButtonState(); // Define o estado inicial do botão
     });
 
+
     // Funções auxiliares (manter as existentes ou adicionar se necessário)
     function goToStep(step) {
         console.log('Voltando para etapa:', step);
@@ -1346,6 +1516,122 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Digite um cupom válido');
         }
     }
+
+    /**
+ * Renderiza os produtos do localStorage na seção "Revisar Informações"
+ */
+function renderReviewProducts() {
+    var reviewProductsList = document.getElementById('reviewProductsList');
+    var reviewProductsGroup = document.getElementById('reviewProductsGroup');
+    var reviewProductsContainer = document.getElementById('reviewProductsContainer');
+    if (!reviewProductsList) return;
+
+    // Busca produtos no localStorage
+    var possibleKeys = ['produtos', 'products', 'cartProducts', 'cartItems', 'cart', 'pedido', 'items'];
+    var produtos = null;
+
+    for (var k = 0; k < possibleKeys.length; k++) {
+        var raw = localStorage.getItem(possibleKeys[k]);
+        if (raw) {
+            try {
+                var parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    produtos = parsed;
+                    break;
+                }
+            } catch (e) {}
+        }
+    }
+
+    if (!produtos) {
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            try {
+                var rawItem = localStorage.getItem(key);
+                var parsedItem = JSON.parse(rawItem);
+                if (Array.isArray(parsedItem) && parsedItem.length > 0) {
+                    var first = parsedItem[0];
+                    if (first && (first.nome || first.name || first.title)) {
+                        produtos = parsedItem;
+                        break;
+                    }
+                }
+            } catch (e) {}
+        }
+    }
+
+    var displayStyle = (!produtos || produtos.length === 0) ? 'none' : '';
+    if (reviewProductsGroup) reviewProductsGroup.style.display = displayStyle;
+    if (reviewProductsContainer) reviewProductsContainer.style.display = displayStyle;
+    if (!produtos) return;
+
+    // Renderiza os itens de produtos
+    reviewProductsList.innerHTML = '';
+    var subtotalGeral = 0;
+
+    for (var j = 0; j < produtos.length; j++) {
+        var p = produtos[j];
+        var nome = p.nome || p.name || p.title || 'Produto';
+        var qtd = parseInt(p.quantidade || p.quantity || 1);
+        var preco = parseFloat(p.preco || p.price || p.valor || 0);
+        var foto = p.foto || p.image || p.img || p.imagem || '';
+        var subtotal = preco * qtd;
+        subtotalGeral += subtotal;
+
+        var precoUnit = preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        var subtotalFormat = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        var item = document.createElement('div');
+        item.style.cssText = 'display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #e5e7eb;';
+        
+        var imgHTML = foto 
+            ? '<img src="'+foto+'" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #d1d5db;flex-shrink:0;" onerror="this.style.display=\'none\'">'
+            : '<div style="width:60px;height:60px;border-radius:6px;border:1px solid #d1d5db;background:#ffffff;flex-shrink:0;"></div>';
+
+        item.innerHTML = imgHTML + 
+            '<div style="flex:1;min-width:0;">' +
+                '<div style="font-size:13px;font-weight:600;color:#0f172a;line-height:1.4;word-break:break-word;margin-bottom:4px;">' + nome + '</div>' +
+                '<div style="font-size:12px;color:#64748b;">Qtd: ' + qtd + ' &times; ' + precoUnit + '</div>' +
+            '</div>' +
+            '<div style="text-align:right;flex-shrink:0;">' +
+                '<div style="font-size:14px;font-weight:700;color:#0f172a;white-space:nowrap;">' + subtotalFormat + '</div>' +
+            '</div>';
+        
+        reviewProductsList.appendChild(item);
+    }
+
+    // Remove borda do último item
+    if (reviewProductsList.lastElementChild) {
+        reviewProductsList.lastElementChild.style.borderBottom = 'none';
+    }
+
+    // Atualiza subtotal
+    var subtotalFormatado = subtotalGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    var subtotalEl = document.getElementById('reviewSubtotal');
+    if (subtotalEl) subtotalEl.textContent = subtotalFormatado;
+
+    // Calcula frete e total
+    var freteValor = 0;
+    var shippingOption = document.querySelector('.shipping-option.selected');
+    if (shippingOption) {
+        var priceText = shippingOption.querySelector('.shipping-price')?.textContent || 'GRÁTIS';
+        if (priceText !== 'GRÁTIS') {
+            freteValor = parseFloat(priceText.replace(/[^\d,.-]/g, '').replace(',', '.'));
+        }
+    }
+
+    var freteFormatado = freteValor > 0 ? freteValor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'GRÁTIS';
+    var freteEl = document.getElementById('reviewShippingPrice');
+    if (freteEl) freteEl.textContent = freteFormatado;
+
+    // Total final
+    var totalFinal = subtotalGeral + freteValor;
+    var totalFormatado = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    var totalEl = document.getElementById('reviewTotalPrice');
+    if (totalEl) totalEl.textContent = totalFormatado;
+}
+
+
 </script>
 
 
