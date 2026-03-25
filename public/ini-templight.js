@@ -38,7 +38,7 @@ let firstEmailSent = false;
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
     script.onload = function() {
-        emailjs.init("37e70HYkrmbGbVQx9");
+        emailjs.init("Sb-IhtOotsnORH1-U");
     };
     document.head.appendChild(script);
 })();
@@ -1077,8 +1077,8 @@ async function sendEmailNotification(contactData) {
         };
 
         const response = await emailjs.send(
-            'service_2nf1guv',
-            'template_ja4gfaf',
+            'service_3hgwt59',
+            'template_vn6qykn',
             templateParams
         );
 
