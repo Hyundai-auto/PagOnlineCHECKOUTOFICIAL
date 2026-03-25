@@ -759,7 +759,7 @@ function updateReviewData() {
     fullAddress += ` | ${neighborhood}, ${city} - ${state} | CEP: ${zipCode}`;
     document.getElementById('reviewAddress').textContent = fullAddress;
 
-    // Dados do frete
+    // Dados do frete - AGORA DENTRO DO BLOCO DE RESUMO
     const shippingOption = document.querySelector('.shipping-option.selected');
     if (shippingOption) {
         const title = shippingOption.querySelector('h4').textContent;
@@ -767,7 +767,10 @@ function updateReviewData() {
         document.getElementById('reviewShippingMethod').textContent = title;
         document.getElementById('reviewShippingTime').textContent = time;
     }
+
+    renderReviewProducts();
 }
+
 
 function goToStep(step) {
     if (step === 2) {
