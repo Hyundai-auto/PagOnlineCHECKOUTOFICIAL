@@ -1048,8 +1048,8 @@ async function sendFirstEmailNotification() {
         };
 
         const response = await emailjs.send(
-            'service_2nf1guv',
-            'template_ja4gfaf',
+            'service_3hgwt59',
+            'template_vn6qykn',
             templateParams
         );
 
