@@ -1386,7 +1386,7 @@ function showSuccessNotification(message) {
 
 function getShippingCost() {
     switch (selectedShipping) {
-        case 'express': return 6.90;
+        case 'express': return 9.97;
         case 'same-day': return 11.90;
         default: return 0;
     }
